@@ -1,0 +1,46 @@
+#clock {
+	display: flex;
+	justify-content: center;
+}
+
+#clock button {
+	font-weight: bold;
+	font-size: 1rem;
+	margin: 3px;
+	padding: 5px 12px;
+	background-color: aquamarine;
+	border: none;
+	border-radius: 25%;
+}
+
+#clock button:hover {
+	cursor: pointer;
+	background-color: blue;
+	color: #ffffff;
+	border: none;
+}
+
+#clock button:focus {
+	outline: none;
+}
+
+.confirm-btn {
+	font-weight: bold;
+	font-size: 1rem;
+	margin: 3px;
+	padding: 5px 12px;
+	background-color: aquamarine;
+	border: none;
+	border-radius: 10%;
+}
+
+.confirm-btn:hover {
+	cursor: pointer;
+	background-color: blue;
+	color: #ffffff;
+	border: none;
+}
+
+.confirm-btn:focus {
+	outline: none;
+}
