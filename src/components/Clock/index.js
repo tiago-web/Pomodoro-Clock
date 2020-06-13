@@ -1,48 +1,41 @@
 import React, { useState, useEffect } from "react";
-import numeral from "numeral";
 
 import "./styles.css";
 
 const Clock = () => {
 	const [isRunning, setIsRunning] = useState(false);
 
-	const [startTime, setStartTime] = useState(0);
-	const [newTime, setNewTime] = useState({
-		hours: 1,
-		minutes: 0,
-		seconds: 0,
-	});
+	const [seconds, setSeconds] = useState(1500);
 
-	const time = useTime({
-		hours: newTime.hours,
-		minutes: newTime.minutes,
-		seconds: newTime.seconds,
-	});
+	const [date, setDate] = useState(new Date(seconds * 1000));
 
 	const [mousePressEvent, setMousePressEvent] = useState({
 		isPressed: false,
+		event: "",
 	});
 	const [pressingInterval, setPressingInterval] = useState({});
 
 	useEffect(() => {
-		if (startTime > 0 && isRunning) {
+		if (seconds > 0 && isRunning) {
 			setTimeout(() => {
-				setStartTime(prevTime => prevTime - 1);
-			}, 10);
+				setSeconds(prevSeconds => {
+					return prevSeconds - 1;
+				});
+			}, 1000);
 		} else {
 			setIsRunning(false);
 		}
-	}, [isRunning, startTime]);
+	}, [isRunning, seconds]);
 
 	useEffect(() => {
 		if (!mousePressEvent.isPressed) return;
 
 		const interval = setInterval(() => {
-			setStartTime(prevTime => {
+			setSeconds(prevSeconds => {
 				if (mousePressEvent.event[0] === "+") {
-					return prevTime === 60 ? 0 : prevTime + 1;
+					return prevSeconds + 1;
 				} else {
-					return prevTime > 0 ? prevTime - 1 : 0;
+					return prevSeconds > 0 ? prevSeconds - 1 : 0;
 				}
 			});
 		}, 10);
@@ -56,9 +49,9 @@ const Clock = () => {
 		}
 	}, [mousePressEvent, pressingInterval]);
 
-	const handleIncrease = () => {
-		console.log(time);
-	};
+	useEffect(() => {
+		setDate(new Date(seconds * 1000));
+	}, [seconds]);
 
 	const handleMouseDown = e => {
 		const { value } = e.target;
@@ -73,12 +66,9 @@ const Clock = () => {
 	return (
 		<div>
 			<div id="clock">
-				<h1>
-					{time.getHour}:{time.getMinute}:{time.getSecond}
-				</h1>
+				<h1>{date.toISOString().substr(11, 8)}</h1>
 				<div>
 					<button
-						onClick={handleIncrease}
 						onMouseDown={handleMouseDown}
 						onMouseUp={handleMouseUp}
 						value="+"
@@ -107,13 +97,5 @@ const Clock = () => {
 		</div>
 	);
 };
-
-function useTime({ hours, minutes, seconds }) {
-	const getHour = numeral(hours).format("00");
-	const getMinute = numeral(minutes).format("00");
-	const getSecond = numeral(seconds).format("00");
-
-	return { getHour, getMinute, getSecond };
-}
 
 export default Clock;
