@@ -7,7 +7,7 @@ const Clock = () => {
 
 	const [seconds, setSeconds] = useState(1500);
 
-	const [date, setDate] = useState(new Date(seconds * 1000));
+	const [time, setTime] = useState(new Date(seconds * 1000));
 
 	const [mousePressEvent, setMousePressEvent] = useState({
 		isPressed: false,
@@ -50,7 +50,7 @@ const Clock = () => {
 	}, [mousePressEvent, pressingInterval]);
 
 	useEffect(() => {
-		setDate(new Date(seconds * 1000));
+		setTime(new Date(seconds * 1000));
 	}, [seconds]);
 
 	const handleMouseDown = e => {
@@ -66,7 +66,7 @@ const Clock = () => {
 	return (
 		<div>
 			<div id="clock">
-				<h1>{date.toISOString().substr(11, 8)}</h1>
+				<h1>{time.toISOString().substr(11, 8)}</h1>
 				<div>
 					<button
 						onMouseDown={handleMouseDown}
