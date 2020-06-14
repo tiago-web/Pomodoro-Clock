@@ -3,44 +3,39 @@
 	justify-content: center;
 }
 
+#clock h1 {
+	background-color: #d3d4d8;
+	border: 1px solid #4d606e;
+	margin: 10px;
+	font-family: "Quantico", sans-serif;
+}
+
 #clock button {
 	font-weight: bold;
 	font-size: 1rem;
 	margin: 3px;
-	padding: 5px 12px;
-	background-color: aquamarine;
+	padding: 5px;
+	background: none;
 	border: none;
-	border-radius: 25%;
+	color: var(--text-color);
+
+	border-bottom: 1px solid #4d606e;
 }
 
 #clock button:hover {
 	cursor: pointer;
-	background-color: blue;
-	color: #ffffff;
-	border: none;
+	border-bottom: 1px solid #4ecca3;
+	color: #4ecca3;
 }
 
 #clock button:focus {
 	outline: none;
 }
 
-.countdown-btn {
-	font-weight: bold;
-	font-size: 1rem;
-	margin: 3px;
-	padding: 5px 12px;
-	background-color: aquamarine;
-	border: none;
-	border-radius: 10%;
-}
-
-.countdown-btn:hover {
-	cursor: pointer;
-	background-color: blue;
-	color: #ffffff;
-	border: none;
-}
-
-.countdown-btn:focus {
-	outline: none;
+#clock .container {
+	background-color: #ffffff;
+	border-radius: 5%;
+	border: 1px solid #4d606e;
+	padding: 16px;
+	margin: 42px;
 }

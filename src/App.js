@@ -1,12 +1,12 @@
 import React from "react";
-import Clock from "./components/Clock/index";
+import Home from "./pages/Home/index";
 
 import "./App.css";
 
 const App = () => {
 	return (
 		<div className="App">
-			<Clock />
+			<Home />
 		</div>
 	);
 };

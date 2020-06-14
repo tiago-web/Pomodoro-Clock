@@ -72,42 +72,47 @@ const Clock = () => {
 	};
 
 	return (
-		<div>
-			<div id="clock">
+		<div id="clock">
+			<div className="container">
 				<h1>{time.toISOString().substr(11, 8)}</h1>
-				<div>
+
+				<button
+					style={{ display: "none" }}
+					onMouseDown={handleMouseDown}
+					onMouseUp={handleMouseUp}
+					value="-"
+				>
+					-
+				</button>
+				<button
+					style={{ display: "none" }}
+					onMouseDown={handleMouseDown}
+					onMouseUp={handleMouseUp}
+					value="+"
+				>
+					+
+				</button>
+
+				{!countdownIsRunning ? (
 					<button
-						onMouseDown={handleMouseDown}
-						onMouseUp={handleMouseUp}
-						value="+"
+						className="countdown-btn"
+						onClick={() => setCountdownIsRunning(true)}
 					>
-						+
+						Start
 					</button>
-					<br />
+				) : (
 					<button
-						onMouseDown={handleMouseDown}
-						onMouseUp={handleMouseUp}
-						value="-"
+						className="countdown-btn"
+						onClick={() => setCountdownIsRunning(false)}
 					>
-						-
+						Stop
 					</button>
-				</div>
+				)}
+
+				<button className="countdown-btn" onClick={() => setSeconds(1500)}>
+					Reset
+				</button>
 			</div>
-			{!countdownIsRunning ? (
-				<button
-					className="countdown-btn"
-					onClick={() => setCountdownIsRunning(true)}
-				>
-					Start
-				</button>
-			) : (
-				<button
-					className="countdown-btn"
-					onClick={() => setCountdownIsRunning(false)}
-				>
-					Stop
-				</button>
-			)}
 		</div>
 	);
 };
