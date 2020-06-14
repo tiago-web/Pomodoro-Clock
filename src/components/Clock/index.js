@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./styles.css";
 
 const Clock = () => {
-	const [isRunning, setIsRunning] = useState(false);
+	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
 	const [seconds, setSeconds] = useState(1500);
 	const [time, setTime] = useState(new Date(seconds * 1000));
 
@@ -12,11 +12,11 @@ const Clock = () => {
 		event: "",
 	});
 	const [pressingInterval, setPressingInterval] = useState(0);
-	const [countDownTimeout, setCountDownTimeout] = useState(0);
+	const [countdownTimeout, setCountdownTimeout] = useState(0);
 
 	useEffect(() => {
-		if (!isRunning && seconds < 0) {
-			setIsRunning(false);
+		if (!countdownIsRunning && seconds < 0) {
+			setCountdownIsRunning(false);
 			return;
 		}
 
@@ -26,14 +26,14 @@ const Clock = () => {
 			});
 		}, 1000);
 
-		setCountDownTimeout(timeout);
-	}, [isRunning, seconds]);
+		setCountdownTimeout(timeout);
+	}, [countdownIsRunning, seconds]);
 
 	useEffect(() => {
-		if (!isRunning) {
-			clearTimeout(countDownTimeout);
+		if (!countdownIsRunning) {
+			clearTimeout(countdownTimeout);
 		}
-	}, [isRunning, countDownTimeout]);
+	}, [countdownIsRunning, countdownTimeout]);
 
 	useEffect(() => {
 		if (!mousePressEvent.isPressed) return;
@@ -46,7 +46,7 @@ const Clock = () => {
 					return prevSeconds > 0 ? prevSeconds - 1 : 0;
 				}
 			});
-		}, 100);
+		}, 150);
 
 		setPressingInterval(interval);
 	}, [mousePressEvent]);
@@ -93,12 +93,18 @@ const Clock = () => {
 					</button>
 				</div>
 			</div>
-			{!isRunning ? (
-				<button className="confirm-btn" onClick={() => setIsRunning(true)}>
+			{!countdownIsRunning ? (
+				<button
+					className="countdown-btn"
+					onClick={() => setCountdownIsRunning(true)}
+				>
 					Start
 				</button>
 			) : (
-				<button className="confirm-btn" onClick={() => setIsRunning(false)}>
+				<button
+					className="countdown-btn"
+					onClick={() => setCountdownIsRunning(false)}
+				>
 					Stop
 				</button>
 			)}
