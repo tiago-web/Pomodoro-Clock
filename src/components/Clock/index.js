@@ -3,29 +3,37 @@ import React, { useState, useEffect } from "react";
 import "./styles.css";
 
 const Clock = () => {
-	const [isRunning, setIsRunning] = useState(false);
-
+	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
 	const [seconds, setSeconds] = useState(1500);
-
-	const [date, setDate] = useState(new Date(seconds * 1000));
+	const [time, setTime] = useState(new Date(seconds * 1000));
 
 	const [mousePressEvent, setMousePressEvent] = useState({
 		isPressed: false,
 		event: "",
 	});
-	const [pressingInterval, setPressingInterval] = useState({});
+	const [pressingInterval, setPressingInterval] = useState(0);
+	const [countdownTimeout, setCountdownTimeout] = useState(0);
 
 	useEffect(() => {
-		if (seconds > 0 && isRunning) {
-			setTimeout(() => {
-				setSeconds(prevSeconds => {
-					return prevSeconds - 1;
-				});
-			}, 1000);
-		} else {
-			setIsRunning(false);
+		if (!countdownIsRunning && seconds < 0) {
+			setCountdownIsRunning(false);
+			return;
 		}
-	}, [isRunning, seconds]);
+
+		const timeout = setTimeout(() => {
+			setSeconds(prevSeconds => {
+				return prevSeconds - 1;
+			});
+		}, 1000);
+
+		setCountdownTimeout(timeout);
+	}, [countdownIsRunning, seconds]);
+
+	useEffect(() => {
+		if (!countdownIsRunning) {
+			clearTimeout(countdownTimeout);
+		}
+	}, [countdownIsRunning, countdownTimeout]);
 
 	useEffect(() => {
 		if (!mousePressEvent.isPressed) return;
@@ -38,19 +46,19 @@ const Clock = () => {
 					return prevSeconds > 0 ? prevSeconds - 1 : 0;
 				}
 			});
-		}, 10);
+		}, 150);
 
-		setPressingInterval({ interval });
+		setPressingInterval(interval);
 	}, [mousePressEvent]);
 
 	useEffect(() => {
 		if (!mousePressEvent.isPressed) {
-			clearInterval(pressingInterval.interval);
+			clearInterval(pressingInterval);
 		}
 	}, [mousePressEvent, pressingInterval]);
 
 	useEffect(() => {
-		setDate(new Date(seconds * 1000));
+		setTime(new Date(seconds * 1000));
 	}, [seconds]);
 
 	const handleMouseDown = e => {
@@ -66,7 +74,7 @@ const Clock = () => {
 	return (
 		<div>
 			<div id="clock">
-				<h1>{date.toISOString().substr(11, 8)}</h1>
+				<h1>{time.toISOString().substr(11, 8)}</h1>
 				<div>
 					<button
 						onMouseDown={handleMouseDown}
@@ -85,12 +93,18 @@ const Clock = () => {
 					</button>
 				</div>
 			</div>
-			{!isRunning ? (
-				<button className="confirm-btn" onClick={() => setIsRunning(true)}>
+			{!countdownIsRunning ? (
+				<button
+					className="countdown-btn"
+					onClick={() => setCountdownIsRunning(true)}
+				>
 					Start
 				</button>
 			) : (
-				<button className="confirm-btn" onClick={() => setIsRunning(false)}>
+				<button
+					className="countdown-btn"
+					onClick={() => setCountdownIsRunning(false)}
+				>
 					Stop
 				</button>
 			)}
