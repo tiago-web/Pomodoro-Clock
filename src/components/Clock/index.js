@@ -4,28 +4,36 @@ import "./styles.css";
 
 const Clock = () => {
 	const [isRunning, setIsRunning] = useState(false);
-
 	const [seconds, setSeconds] = useState(1500);
-
 	const [time, setTime] = useState(new Date(seconds * 1000));
 
 	const [mousePressEvent, setMousePressEvent] = useState({
 		isPressed: false,
 		event: "",
 	});
-	const [pressingInterval, setPressingInterval] = useState({});
+	const [pressingInterval, setPressingInterval] = useState(0);
+	const [countDownTimeout, setCountDownTimeout] = useState(0);
 
 	useEffect(() => {
-		if (seconds > 0 && isRunning) {
-			setTimeout(() => {
-				setSeconds(prevSeconds => {
-					return prevSeconds - 1;
-				});
-			}, 1000);
-		} else {
+		if (!isRunning && seconds < 0) {
 			setIsRunning(false);
+			return;
 		}
+
+		const timeout = setTimeout(() => {
+			setSeconds(prevSeconds => {
+				return prevSeconds - 1;
+			});
+		}, 1000);
+
+		setCountDownTimeout(timeout);
 	}, [isRunning, seconds]);
+
+	useEffect(() => {
+		if (!isRunning) {
+			clearTimeout(countDownTimeout);
+		}
+	}, [isRunning, countDownTimeout]);
 
 	useEffect(() => {
 		if (!mousePressEvent.isPressed) return;
@@ -38,14 +46,14 @@ const Clock = () => {
 					return prevSeconds > 0 ? prevSeconds - 1 : 0;
 				}
 			});
-		}, 10);
+		}, 100);
 
-		setPressingInterval({ interval });
+		setPressingInterval(interval);
 	}, [mousePressEvent]);
 
 	useEffect(() => {
 		if (!mousePressEvent.isPressed) {
-			clearInterval(pressingInterval.interval);
+			clearInterval(pressingInterval);
 		}
 	}, [mousePressEvent, pressingInterval]);
 
