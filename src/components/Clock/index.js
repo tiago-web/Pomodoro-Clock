@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 
+import Audio, { useAudio } from "../Audio/Audio";
+
 import "./styles.css";
 
 const Clock = () => {
+	const { setPlaying } = useAudio();
+
 	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
-	const [seconds, setSeconds] = useState(1500);
+	const [seconds, setSeconds] = useState(10);
 	const [time, setTime] = useState(new Date(seconds * 1000));
 
 	const [mousePressEvent, setMousePressEvent] = useState({
@@ -20,6 +24,11 @@ const Clock = () => {
 			return;
 		}
 
+		if (seconds === 0) {
+			setPlaying(true);
+			return;
+		}
+
 		const timeout = setTimeout(() => {
 			setSeconds(prevSeconds => {
 				return prevSeconds - 1;
@@ -27,7 +36,7 @@ const Clock = () => {
 		}, 1000);
 
 		setCountdownTimeout(timeout);
-	}, [countdownIsRunning, seconds]);
+	}, [countdownIsRunning, seconds, setPlaying]);
 
 	useEffect(() => {
 		if (!countdownIsRunning) {
@@ -75,9 +84,10 @@ const Clock = () => {
 		<div id="clock">
 			<div className="container">
 				<h1>{time.toISOString().substr(11, 8)}</h1>
+				<Audio />
 
 				<button
-					style={{ display: "none" }}
+					style={{ display: "" }}
 					onMouseDown={handleMouseDown}
 					onMouseUp={handleMouseUp}
 					value="-"
@@ -109,7 +119,14 @@ const Clock = () => {
 					</button>
 				)}
 
-				<button className="countdown-btn" onClick={() => setSeconds(1500)}>
+				<button
+					className="countdown-btn"
+					onClick={() => {
+						setSeconds(1500);
+						setCountdownIsRunning(false);
+						setPlaying(false);
+					}}
+				>
 					Reset
 				</button>
 			</div>

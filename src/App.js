@@ -1,12 +1,14 @@
 import React from "react";
-import Home from "./pages/Home/index";
+import Clock from "./components/Clock/index";
+import Header from "./components/Header/index";
 
 import "./App.css";
 
 const App = () => {
 	return (
 		<div className="App">
-			<Home />
+			<Header />
+			<Clock />
 		</div>
 	);
 };

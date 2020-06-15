@@ -1,0 +1,14 @@
+#header {
+	margin-top: 32px;
+	display: flex;
+	justify-content: center;
+	align-content: center;
+}
+#header h1 {
+	color: var(--title-color);
+}
+
+#header img {
+	margin-left: 8px;
+	width: 32px;
+}
