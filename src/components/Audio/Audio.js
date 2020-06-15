@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 
-export default Audio = () => {
+export default () => {
 	return (
-		<audio id="audio">
+		<audio id="audio" loop>
 			<source src="./sounds/alarm-clock-effect.mp3"></source>
 		</audio>
 	);
 };
 
 export const useAudio = () => {
-	const [playing, setPlaying] = useState(false);
+	const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
 	useEffect(() => {
 		const audio = document.getElementById("audio");
 
-		playing ? audio.play() : audio.pause();
-	}, [playing]);
+		isPlayingAudio ? audio.play() : audio.pause();
+	}, [isPlayingAudio]);
 
-	return { setPlaying };
+	return { isPlayingAudio, setIsPlayingAudio };
 };

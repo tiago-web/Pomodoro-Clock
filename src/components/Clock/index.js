@@ -4,34 +4,39 @@ import Audio, { useAudio } from "../Audio/Audio";
 
 import "./styles.css";
 
-const Clock = () => {
-	const { setPlaying } = useAudio();
+const Clock = props => {
+	const { setIsPlayingAudio } = useAudio();
+	const { setPomodoroCount, setBreakTime, breakTime } = props;
 
 	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
-	const [seconds, setSeconds] = useState(10);
+	const [seconds, setSeconds] = useState(1500);
 	const [time, setTime] = useState(new Date(seconds * 1000));
 
 	const [countdownTimeout, setCountdownTimeout] = useState(0);
 
 	useEffect(() => {
-		if (!countdownIsRunning && seconds < 0) {
-			setCountdownIsRunning(false);
-			return;
-		}
+		if (!countdownIsRunning) return;
 
 		if (seconds === 0) {
-			setPlaying(true);
+			setIsPlayingAudio(true);
+			setCountdownIsRunning(false);
+			setBreakTime(!breakTime);
 			return;
 		}
 
 		const timeout = setTimeout(() => {
-			setSeconds(prevSeconds => {
-				return prevSeconds - 1;
-			});
+			setSeconds(prevSeconds => prevSeconds - 1);
 		}, 1000);
 
 		setCountdownTimeout(timeout);
-	}, [countdownIsRunning, seconds, setPlaying]);
+	}, [
+		countdownIsRunning,
+		seconds,
+		setPomodoroCount,
+		setIsPlayingAudio,
+		setBreakTime,
+		breakTime,
+	]);
 
 	useEffect(() => {
 		if (!countdownIsRunning) {
@@ -43,6 +48,15 @@ const Clock = () => {
 		setTime(new Date(seconds * 1000));
 	}, [seconds]);
 
+	useEffect(() => {
+		if (breakTime) {
+			setSeconds(300);
+		} else {
+			setSeconds(1500);
+			setPomodoroCount(prevCount => prevCount + 1);
+		}
+	}, [breakTime, setPomodoroCount]);
+
 	return (
 		<div id="clock">
 			<div className="container">
@@ -52,7 +66,10 @@ const Clock = () => {
 				{!countdownIsRunning ? (
 					<button
 						className="countdown-btn"
-						onClick={() => setCountdownIsRunning(true)}
+						onClick={() => {
+							setCountdownIsRunning(true);
+							setIsPlayingAudio(false);
+						}}
 					>
 						Start
 					</button>
@@ -68,9 +85,9 @@ const Clock = () => {
 				<button
 					className="countdown-btn"
 					onClick={() => {
-						setSeconds(1500);
+						setSeconds(breakTime ? 300 : 1500);
 						setCountdownIsRunning(false);
-						setPlaying(false);
+						setIsPlayingAudio(false);
 					}}
 				>
 					Reset
