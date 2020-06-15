@@ -11,11 +11,6 @@ const Clock = () => {
 	const [seconds, setSeconds] = useState(10);
 	const [time, setTime] = useState(new Date(seconds * 1000));
 
-	const [mousePressEvent, setMousePressEvent] = useState({
-		isPressed: false,
-		event: "",
-	});
-	const [pressingInterval, setPressingInterval] = useState(0);
 	const [countdownTimeout, setCountdownTimeout] = useState(0);
 
 	useEffect(() => {
@@ -45,63 +40,14 @@ const Clock = () => {
 	}, [countdownIsRunning, countdownTimeout]);
 
 	useEffect(() => {
-		if (!mousePressEvent.isPressed) return;
-
-		const interval = setInterval(() => {
-			setSeconds(prevSeconds => {
-				if (mousePressEvent.event[0] === "+") {
-					return prevSeconds + 1;
-				} else {
-					return prevSeconds > 0 ? prevSeconds - 1 : 0;
-				}
-			});
-		}, 150);
-
-		setPressingInterval(interval);
-	}, [mousePressEvent]);
-
-	useEffect(() => {
-		if (!mousePressEvent.isPressed) {
-			clearInterval(pressingInterval);
-		}
-	}, [mousePressEvent, pressingInterval]);
-
-	useEffect(() => {
 		setTime(new Date(seconds * 1000));
 	}, [seconds]);
-
-	const handleMouseDown = e => {
-		const { value } = e.target;
-
-		setMousePressEvent({ isPressed: true, event: [value] });
-	};
-
-	const handleMouseUp = () => {
-		setMousePressEvent({ isPressed: false });
-	};
 
 	return (
 		<div id="clock">
 			<div className="container">
 				<h1>{time.toISOString().substr(11, 8)}</h1>
 				<Audio />
-
-				<button
-					style={{ display: "" }}
-					onMouseDown={handleMouseDown}
-					onMouseUp={handleMouseUp}
-					value="-"
-				>
-					-
-				</button>
-				<button
-					style={{ display: "none" }}
-					onMouseDown={handleMouseDown}
-					onMouseUp={handleMouseUp}
-					value="+"
-				>
-					+
-				</button>
 
 				{!countdownIsRunning ? (
 					<button
