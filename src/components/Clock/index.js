@@ -1,33 +1,42 @@
 import React, { useState, useEffect } from "react";
 
+import Audio, { useAudio } from "../Audio/Audio";
+
 import "./styles.css";
 
-const Clock = () => {
+const Clock = props => {
+	const { setIsPlayingAudio } = useAudio();
+	const { setPomodoroCount, setBreakTime, breakTime } = props;
+
 	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
 	const [seconds, setSeconds] = useState(1500);
 	const [time, setTime] = useState(new Date(seconds * 1000));
 
-	const [mousePressEvent, setMousePressEvent] = useState({
-		isPressed: false,
-		event: "",
-	});
-	const [pressingInterval, setPressingInterval] = useState(0);
 	const [countdownTimeout, setCountdownTimeout] = useState(0);
 
 	useEffect(() => {
-		if (!countdownIsRunning && seconds < 0) {
+		if (!countdownIsRunning) return;
+
+		if (seconds === 0) {
+			setIsPlayingAudio(true);
 			setCountdownIsRunning(false);
+			setBreakTime(!breakTime);
 			return;
 		}
 
 		const timeout = setTimeout(() => {
-			setSeconds(prevSeconds => {
-				return prevSeconds - 1;
-			});
+			setSeconds(prevSeconds => prevSeconds - 1);
 		}, 1000);
 
 		setCountdownTimeout(timeout);
-	}, [countdownIsRunning, seconds]);
+	}, [
+		countdownIsRunning,
+		seconds,
+		setPomodoroCount,
+		setIsPlayingAudio,
+		setBreakTime,
+		breakTime,
+	]);
 
 	useEffect(() => {
 		if (!countdownIsRunning) {
@@ -36,78 +45,54 @@ const Clock = () => {
 	}, [countdownIsRunning, countdownTimeout]);
 
 	useEffect(() => {
-		if (!mousePressEvent.isPressed) return;
-
-		const interval = setInterval(() => {
-			setSeconds(prevSeconds => {
-				if (mousePressEvent.event[0] === "+") {
-					return prevSeconds + 1;
-				} else {
-					return prevSeconds > 0 ? prevSeconds - 1 : 0;
-				}
-			});
-		}, 150);
-
-		setPressingInterval(interval);
-	}, [mousePressEvent]);
-
-	useEffect(() => {
-		if (!mousePressEvent.isPressed) {
-			clearInterval(pressingInterval);
-		}
-	}, [mousePressEvent, pressingInterval]);
-
-	useEffect(() => {
 		setTime(new Date(seconds * 1000));
 	}, [seconds]);
 
-	const handleMouseDown = e => {
-		const { value } = e.target;
-
-		setMousePressEvent({ isPressed: true, event: [value] });
-	};
-
-	const handleMouseUp = () => {
-		setMousePressEvent({ isPressed: false });
-	};
+	useEffect(() => {
+		if (breakTime) {
+			setSeconds(300);
+		} else {
+			setSeconds(1500);
+			setPomodoroCount(prevCount => prevCount + 1);
+		}
+	}, [breakTime, setPomodoroCount]);
 
 	return (
-		<div>
-			<div id="clock">
+		<div id="clock">
+			<div className="container">
 				<h1>{time.toISOString().substr(11, 8)}</h1>
-				<div>
+				<Audio />
+
+				{!countdownIsRunning ? (
 					<button
-						onMouseDown={handleMouseDown}
-						onMouseUp={handleMouseUp}
-						value="+"
+						className="countdown-btn"
+						onClick={() => {
+							setCountdownIsRunning(true);
+							setIsPlayingAudio(false);
+						}}
 					>
-						+
+						Start
 					</button>
-					<br />
+				) : (
 					<button
-						onMouseDown={handleMouseDown}
-						onMouseUp={handleMouseUp}
-						value="-"
+						className="countdown-btn"
+						onClick={() => setCountdownIsRunning(false)}
 					>
-						-
+						Stop
 					</button>
-				</div>
+				)}
+
+				<button
+					className="countdown-btn"
+					onClick={() => {
+						setSeconds(breakTime ? 300 : 1500);
+						setCountdownIsRunning(false);
+						setIsPlayingAudio(false);
+					}}
+				>
+					Reset
+				</button>
 			</div>
-			{!countdownIsRunning ? (
-				<button
-					className="countdown-btn"
-					onClick={() => setCountdownIsRunning(true)}
-				>
-					Start
-				</button>
-			) : (
-				<button
-					className="countdown-btn"
-					onClick={() => setCountdownIsRunning(false)}
-				>
-					Stop
-				</button>
-			)}
 		</div>
 	);
 };
