@@ -1,0 +1,35 @@
+.about-modal {
+	position: absolute;
+	width: 50%;
+}
+
+.about-modal h1 {
+	color: #2fb86e;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-family: Roboto, Ubunto, sans-serif;
+	margin-bottom: 16px;
+}
+
+.about-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #000000e5;
+	z-index: 0;
+	border: none;
+	outline: none;
+}
+
+.about-modal .modal-text {
+	text-align: justify;
+	color: var(--modal-color);
+}
+.about-modal .modal-text p {
+	margin-bottom: 8px;
+}

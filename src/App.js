@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Clock from "./components/Clock/index";
 import Header from "./components/Header/index";
 import Footer from "./components/Footer/index";
+import AboutModal from "./components/Modal/index";
 
 import "./App.css";
 
@@ -10,9 +11,9 @@ const App = () => {
 	const [breakTime, setBreakTime] = useState(false);
 	const [workStatus, setWorkStatus] = useState("It's work time!");
 	const [intervals, setIntervals] = useState({
-		smallBreak: 2,
-		bigBreak: 10,
-		workTime: 5,
+		workTime: 1500,
+		smallBreak: 300,
+		bigBreak: 1800,
 	});
 
 	useEffect(() => {
@@ -36,6 +37,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<Header workStatus={workStatus} />
+			<AboutModal />
 			<Clock
 				setPomodoroCount={setPomodoroCount}
 				setBreakTime={setBreakTime}
