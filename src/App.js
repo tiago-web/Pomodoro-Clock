@@ -16,6 +16,10 @@ const App = () => {
 		smallBreak: 300,
 		bigBreak: 1800,
 	});
+	const [modalsController, setModalsController] = useState({
+		isAboutModalOpen: true,
+		isIntervalsModalOpen: false,
+	});
 
 	useEffect(() => {
 		if (pomodoroCount > 4) {
@@ -38,8 +42,15 @@ const App = () => {
 	return (
 		<div className="App">
 			<Header workStatus={workStatus} />
-			<IntervalsModal />
-			<AboutModal />
+			<AboutModal
+				modalsController={modalsController}
+				setModalsController={setModalsController}
+			/>
+			<IntervalsModal
+				modalsController={modalsController}
+				setModalsController={setModalsController}
+				setIntervals={setIntervals}
+			/>
 			<Clock
 				setPomodoroCount={setPomodoroCount}
 				setBreakTime={setBreakTime}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-modal";
 
 import CloseIcon from "@material-ui/icons/Close";
@@ -17,12 +17,12 @@ const customStyles = {
 	},
 };
 
-const AboutModal = () => {
-	const [aboutModalIsOpen, setAboutModalIsOpen] = useState(false);
+const AboutModal = props => {
+	const { modalsController, setModalsController } = props;
 
 	return (
 		<Modal
-			isOpen={aboutModalIsOpen}
+			isOpen={modalsController.isAboutModalOpen}
 			style={customStyles}
 			overlayClassName="about-modal-overlay"
 			className="about-modal"
@@ -34,7 +34,14 @@ const AboutModal = () => {
 				<div className="invisible-div"></div>
 				<div className="modal-content">
 					<div className="modal-close-icon">
-						<CloseIcon onClick={() => setAboutModalIsOpen(false)} />
+						<CloseIcon
+							onClick={() =>
+								setModalsController(prevState => ({
+									...prevState,
+									isAboutModalOpen: false,
+								}))
+							}
+						/>
 					</div>
 					<h1>About the pomodoro technique</h1>
 					<div className="modal-text">
@@ -55,9 +62,12 @@ const AboutModal = () => {
 				</div>
 				<div className="modal-next-page-icon">
 					<ArrowForwardIosOutlinedIcon
-						onClick={() => {
-							setAboutModalIsOpen(false);
-						}}
+						onClick={() =>
+							setModalsController({
+								isAboutModalOpen: false,
+								isIntervalsModalOpen: true,
+							})
+						}
 					/>
 				</div>
 			</div>

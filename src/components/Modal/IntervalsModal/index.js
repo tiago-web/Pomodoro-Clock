@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-modal";
 
 import TextField from "@material-ui/core/TextField";
@@ -21,18 +21,16 @@ const customStyles = {
 	},
 };
 
-const IntervalsModal = () => {
-	const [intervalsModalIsOpen, setIntervalsModalIsOpen] = useState(true);
+const IntervalsModal = props => {
+	const { modalsController, setModalsController } = props;
 
 	const handleFormSubmition = e => {
 		e.preventDefault();
-
-		setIntervalsModalIsOpen(false);
 	};
 
 	return (
 		<Modal
-			isOpen={intervalsModalIsOpen}
+			isOpen={modalsController.isIntervalsModalOpen}
 			style={customStyles}
 			overlayClassName="interval-modal-overlay"
 			className="interval-modal"
@@ -43,19 +41,28 @@ const IntervalsModal = () => {
 			<div className="modal-container">
 				<div className="modal-previous-page-icon">
 					<ArrowBackIosOutlinedIcon
-						onClick={() => setIntervalsModalIsOpen(false)}
+						onClick={() =>
+							setModalsController({
+								isAboutModalOpen: true,
+								isIntervalsModalOpen: false,
+							})
+						}
 					/>
 				</div>
 
 				<div className="modal-content">
 					<div className="modal-close-icon">
-						<CloseIcon onClick={() => setIntervalsModalIsOpen(false)} />
+						<CloseIcon
+							onClick={() =>
+								setModalsController(prevState => ({
+									...prevState,
+									isIntervalsModalOpen: false,
+								}))
+							}
+						/>
 					</div>
 					<h1>Sections form</h1>
-					<p>
-						Please, input how many minutes you would like to spend on each
-						section
-					</p>
+					<p>Please, input how many minutes you would like for each section</p>
 					<form className="intervals-form" onSubmit={handleFormSubmition}>
 						<TextField
 							className="modal-input"
