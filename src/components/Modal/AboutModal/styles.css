@@ -1,0 +1,82 @@
+.about-modal {
+	position: absolute;
+}
+
+.about-modal:focus {
+	outline: none;
+}
+
+.about-modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #000000e5;
+	z-index: 0;
+	border: none;
+	outline: none;
+}
+
+.about-modal .modal-container {
+	display: flex;
+}
+
+.about-modal .modal-content {
+	width: 50%;
+	margin: auto;
+}
+
+.about-modal h1 {
+	color: #2fb86e;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: #fff;
+	font-family: Roboto, Ubunto, sans-serif;
+	margin: 16px 0;
+}
+
+.about-modal .modal-text {
+	text-align: justify;
+	color: var(--modal-color);
+}
+
+.about-modal .modal-text p {
+	margin-bottom: 8px;
+}
+
+.about-modal .modal-close-icon {
+	display: flex;
+	justify-content: flex-end;
+}
+
+.about-modal .modal-close-icon svg {
+	color: #fff;
+	cursor: pointer;
+	width: 24px;
+	height: 24px;
+}
+
+.about-modal svg:hover {
+	cursor: pointer;
+	background-color: #53535375;
+	border-radius: 100%;
+}
+
+.about-modal .modal-next-page-icon {
+	display: flex;
+	width: 10%;
+}
+
+.about-modal .modal-next-page-icon svg {
+	margin: auto;
+	color: #fff;
+	width: 24px;
+	height: 24px;
+}
+
+.about-modal .invisible-div {
+	width: 10%;
+}
