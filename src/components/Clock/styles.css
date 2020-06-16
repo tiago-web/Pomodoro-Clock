@@ -2,11 +2,14 @@
 	display: flex;
 	justify-content: center;
 }
-
-#clock h1 {
+#clock .time {
 	background-color: #d3d4d8;
 	border: 1px solid #4d606e;
 	margin: 10px;
+}
+
+#clock h1 {
+	font-size: 32px;
 	font-family: "Quantico", sans-serif;
 }
 

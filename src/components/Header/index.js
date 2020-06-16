@@ -10,7 +10,7 @@ const Header = props => {
 				<h1>Pomodoro Clock</h1>
 				<img src="./images/tomato.png" alt="tomato-icon" />
 			</header>
-			<p>{workStatus.status}</p>
+			<p>{workStatus}</p>
 		</div>
 	);
 };
