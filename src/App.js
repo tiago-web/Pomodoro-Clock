@@ -3,6 +3,7 @@ import Clock from "./components/Clock/index";
 import Header from "./components/Header/index";
 import Footer from "./components/Footer/index";
 import AboutModal from "./components/Modal/AboutModal/index";
+import IntervalsModal from "./components/Modal/IntervalsModal/index";
 
 import "./App.css";
 
@@ -14,6 +15,10 @@ const App = () => {
 		workTime: 1500,
 		smallBreak: 300,
 		bigBreak: 1800,
+	});
+	const [modalsController, setModalsController] = useState({
+		isAboutModalOpen: true,
+		isIntervalsModalOpen: false,
 	});
 
 	useEffect(() => {
@@ -37,7 +42,15 @@ const App = () => {
 	return (
 		<div className="App">
 			<Header workStatus={workStatus} />
-			<AboutModal />
+			<AboutModal
+				modalsController={modalsController}
+				setModalsController={setModalsController}
+			/>
+			<IntervalsModal
+				modalsController={modalsController}
+				setModalsController={setModalsController}
+				setIntervals={setIntervals}
+			/>
 			<Clock
 				setPomodoroCount={setPomodoroCount}
 				setBreakTime={setBreakTime}

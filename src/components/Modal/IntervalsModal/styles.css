@@ -1,82 +1,94 @@
-.about-modal {
+.interval-modal {
 	position: absolute;
 }
 
-.about-modal:focus {
+.interval-modal:focus {
 	outline: none;
 }
 
-.about-modal-overlay {
+.interval-modal-overlay {
 	position: fixed;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: #000000e5;
+	background-color: #000000e7;
 	z-index: 0;
 	border: none;
 	outline: none;
 }
 
-.about-modal .modal-container {
+.interval-modal .modal-container {
 	display: flex;
 }
 
-.about-modal .modal-content {
-	width: 50%;
+.interval-modal .modal-content {
+	width: 35%;
 	margin: auto;
 }
 
-.about-modal h1 {
-	color: #2fb86e;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+.interval-modal h1 {
 	color: #fff;
 	font-family: Roboto, Ubunto, sans-serif;
 	margin: 16px 0;
 }
 
-.about-modal .modal-text {
-	text-align: justify;
-	color: var(--modal-color);
+.interval-modal p {
+	color: #999999;
+	font-family: Roboto, Ubunto, sans-serif;
+	margin: 16px 0;
 }
 
-.about-modal .modal-text p {
+.interval-modal .modal-input {
+	background-color: #a5a5a586;
 	margin-bottom: 8px;
+	width: 100%;
 }
 
-.about-modal .modal-close-icon {
+.interval-modal .modal-input input {
+	padding: 23px 12px 8px;
+}
+
+.interval-modal .modal-input label {
+	color: #fff;
+}
+
+.interval-modal .modal-button {
+	margin-top: 8px;
+	width: 100%;
+	padding: 10px;
+}
+
+.interval-modal .modal-close-icon {
 	display: flex;
 	justify-content: flex-end;
 }
 
-.about-modal .modal-close-icon svg {
+.interval-modal .modal-close-icon svg {
 	color: #fff;
 	cursor: pointer;
 	width: 24px;
 	height: 24px;
 }
 
-.about-modal svg:hover {
+.interval-modal svg:hover {
 	cursor: pointer;
 	background-color: #53535375;
 	border-radius: 100%;
 }
 
-.about-modal .modal-next-page-icon {
+.interval-modal .modal-previous-page-icon {
 	display: flex;
 	width: 10%;
 }
 
-.about-modal .modal-next-page-icon svg {
+.interval-modal .modal-previous-page-icon svg {
 	margin: auto;
 	color: #fff;
 	width: 24px;
 	height: 24px;
 }
 
-.about-modal .invisible-div {
+.interval-modal .invisible-div {
 	width: 10%;
 }
