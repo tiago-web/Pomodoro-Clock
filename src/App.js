@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Clock from "./components/Clock/index";
 import Header from "./components/Header/index";
 import Footer from "./components/Footer/index";
-import AboutModal from "./components/Modal/index";
+import AboutModal from "./components/Modal/AboutModal/index";
 
 import "./App.css";
 
