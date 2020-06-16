@@ -3,6 +3,7 @@ import Clock from "./components/Clock/index";
 import Header from "./components/Header/index";
 import Footer from "./components/Footer/index";
 import AboutModal from "./components/Modal/AboutModal/index";
+import IntervalsModal from "./components/Modal/IntervalsModal/index";
 
 import "./App.css";
 
@@ -37,6 +38,7 @@ const App = () => {
 	return (
 		<div className="App">
 			<Header workStatus={workStatus} />
+			<IntervalsModal />
 			<AboutModal />
 			<Clock
 				setPomodoroCount={setPomodoroCount}
