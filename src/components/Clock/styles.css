@@ -3,10 +3,21 @@
 	justify-content: center;
 }
 
-#clock h1 {
+#clock .container {
+	background-color: #ffffff;
+	border-radius: 5%;
+	border: 1px solid #4d606e;
+	padding: 16px;
+	margin: 8px;
+}
+
+#clock .time {
 	background-color: #d3d4d8;
 	border: 1px solid #4d606e;
 	margin: 10px;
+}
+
+#clock h1 {
 	font-family: "Quantico", sans-serif;
 }
 
@@ -30,12 +41,4 @@
 
 #clock button:focus {
 	outline: none;
-}
-
-#clock .container {
-	background-color: #ffffff;
-	border-radius: 5%;
-	border: 1px solid #4d606e;
-	padding: 16px;
-	margin: 8px;
 }

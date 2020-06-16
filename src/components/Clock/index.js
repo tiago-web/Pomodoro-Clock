@@ -6,10 +6,16 @@ import "./styles.css";
 
 const Clock = props => {
 	const { setIsPlayingAudio } = useAudio();
-	const { setPomodoroCount, setBreakTime, breakTime } = props;
+	const {
+		setPomodoroCount,
+		setBreakTime,
+		breakTime,
+		intervals,
+		workStatus,
+	} = props;
 
 	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
-	const [seconds, setSeconds] = useState(1500);
+	const [seconds, setSeconds] = useState(intervals.workTime);
 	const [time, setTime] = useState(new Date(seconds * 1000));
 
 	const [countdownTimeout, setCountdownTimeout] = useState(0);
@@ -19,8 +25,8 @@ const Clock = props => {
 
 		if (seconds === 0) {
 			setIsPlayingAudio(true);
-			setCountdownIsRunning(false);
 			setBreakTime(!breakTime);
+			setCountdownIsRunning(false);
 			return;
 		}
 
@@ -49,23 +55,43 @@ const Clock = props => {
 	}, [seconds]);
 
 	useEffect(() => {
-		if (breakTime) {
-			setSeconds(300);
-		} else {
-			setSeconds(1500);
+		if (!breakTime) {
 			setPomodoroCount(prevCount => prevCount + 1);
 		}
 	}, [breakTime, setPomodoroCount]);
 
+	useEffect(() => {
+		if (workStatus.includes("small")) {
+			setSeconds(intervals.smallBreak);
+		} else if (workStatus.includes("big")) {
+			setSeconds(intervals.bigBreak);
+		} else {
+			setSeconds(intervals.workTime);
+		}
+	}, [workStatus, intervals]);
+
+	const handleResetButton = () => {
+		setSeconds(
+			breakTime
+				? workStatus.includes("small")
+					? intervals.smallBreak
+					: intervals.bigBreak
+				: intervals.workTime
+		);
+		setCountdownIsRunning(false);
+		setIsPlayingAudio(false);
+	};
+
 	return (
 		<div id="clock">
 			<div className="container">
-				<h1>{time.toISOString().substr(11, 8)}</h1>
+				<div className="time">
+					<h1>{time.toISOString().substr(11, 8)}</h1>
+				</div>
 				<Audio />
 
 				{!countdownIsRunning ? (
 					<button
-						className="countdown-btn"
 						onClick={() => {
 							setCountdownIsRunning(true);
 							setIsPlayingAudio(false);
@@ -74,24 +100,10 @@ const Clock = props => {
 						Start
 					</button>
 				) : (
-					<button
-						className="countdown-btn"
-						onClick={() => setCountdownIsRunning(false)}
-					>
-						Stop
-					</button>
+					<button onClick={() => setCountdownIsRunning(false)}>Stop</button>
 				)}
 
-				<button
-					className="countdown-btn"
-					onClick={() => {
-						setSeconds(breakTime ? 300 : 1500);
-						setCountdownIsRunning(false);
-						setIsPlayingAudio(false);
-					}}
-				>
-					Reset
-				</button>
+				<button onClick={handleResetButton}>Reset</button>
 			</div>
 		</div>
 	);
