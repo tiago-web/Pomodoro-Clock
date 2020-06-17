@@ -63,14 +63,17 @@ const IntervalsModal = props => {
 		const regex = /^[0-9\b]+$/;
 
 		if (value === "" || regex.test(value)) {
-			const objectIndex = sectionsData.findIndex(obj => obj.name === name);
+			const changingSectionIndex = sectionsData.findIndex(
+				obj => obj.name === name
+			);
 
 			setSectionsData(prevState => {
 				let newArr = [...prevState];
-				newArr[objectIndex] = {
-					...prevState[objectIndex],
+				newArr[changingSectionIndex] = {
+					...prevState[changingSectionIndex],
 					value,
 					error: false,
+					errorMessage: "",
 				};
 
 				return newArr;
@@ -81,7 +84,7 @@ const IntervalsModal = props => {
 	const handleFormSubmition = e => {
 		e.preventDefault();
 
-		let customTimingSeconds = {};
+		let customTimingInSeconds = {};
 		let error = false;
 
 		for (let i = 0; i < sectionsData.length; i++) {
@@ -89,13 +92,15 @@ const IntervalsModal = props => {
 
 			const currentSectionValue = Number(value);
 
-			if (validateInput(currentSectionValue) !== "") {
+			const errorMessage = validateInput(currentSectionValue);
+
+			if (errorMessage !== "") {
 				setSectionsData(prevState => {
 					let newArr = [...prevState];
 					newArr[i] = {
 						...prevState[i],
 						error: true,
-						errorMessage: validateInput(currentSectionValue),
+						errorMessage,
 					};
 
 					return newArr;
@@ -104,12 +109,14 @@ const IntervalsModal = props => {
 				error = true;
 			}
 
-			if (currentSectionValue !== 0)
-				customTimingSeconds[name] = currentSectionValue * 60;
+			if (value !== "") customTimingInSeconds[name] = currentSectionValue * 60;
 		}
 
 		if (!error) {
-			setIntervals(prevTiming => ({ ...prevTiming, ...customTimingSeconds }));
+			setIntervals(defaultTimes => ({
+				...defaultTimes,
+				...customTimingInSeconds,
+			}));
 
 			setModalsController(prevState => ({
 				...prevState,
@@ -119,10 +126,7 @@ const IntervalsModal = props => {
 	};
 
 	const validateInput = input => {
-		if (input >= 1440) {
-			return "*Please, input less than 1440 minutes.";
-		}
-		return "";
+		return input >= 1440 ? "*Please, input less than 1440 minutes." : "";
 	};
 
 	return (
