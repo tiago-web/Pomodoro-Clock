@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 
 import TextField from "@material-ui/core/TextField";
@@ -22,10 +22,62 @@ const customStyles = {
 };
 
 const IntervalsModal = props => {
-	const { modalsController, setModalsController } = props;
+	const { modalsController, setModalsController, setIntervals } = props;
+	const [customTiming, setCustomTiming] = useState({
+		workTime: "",
+		smallBreak: "",
+		bigBreak: "",
+	});
+
+	const [sectionsData, setSectionsData] = useState([
+		{ label: "Work Section", name: "workTime", value: "", error: false },
+		{ label: "Small break", name: "smallBreak", value: "", error: false },
+		{ label: "Big break", name: "bigBreak", value: "", error: false },
+	]);
+
+	const handleChange = e => {
+		const { name, value } = e.target;
+		const regex = /^[0-9\b]+$/;
+		if (value === "" || regex.test(value)) {
+			setCustomTiming(prevValue => {
+				return {
+					...prevValue,
+					[name]: value,
+				};
+			});
+		}
+	};
 
 	const handleFormSubmition = e => {
 		e.preventDefault();
+
+		let customTimingSeconds = {};
+
+		for (const prop in customTiming) {
+			const currentInputValue = Number(customTiming[prop]);
+
+			if (!validateInput(currentInputValue)) {
+				break;
+			}
+
+			customTimingSeconds[prop] = currentInputValue * 60;
+		}
+
+		setIntervals(customTimingSeconds);
+
+		setModalsController(prevState => ({
+			...prevState,
+			isIntervalsModalOpen: false,
+		}));
+	};
+
+	const validateInput = input => {
+		const message = `${input} is not a valid number.`;
+
+		if (!Number(input) || input === "" || input >= 1440) {
+			throw new Error(message);
+		}
+		return true;
 	};
 
 	return (
@@ -34,9 +86,16 @@ const IntervalsModal = props => {
 			style={customStyles}
 			overlayClassName="interval-modal-overlay"
 			className="interval-modal"
-			shouldFocusAfterRender={false}
 			contentLabel="Intervals form"
 			ariaHideApp={false}
+			shouldCloseOnEsc={true}
+			shouldCloseOnOverlayClick={false}
+			onRequestClose={() =>
+				setModalsController(prevState => ({
+					...prevState,
+					isIntervalsModalOpen: false,
+				}))
+			}
 		>
 			<div className="modal-container">
 				<div className="modal-previous-page-icon">
@@ -68,18 +127,28 @@ const IntervalsModal = props => {
 							className="modal-input"
 							label="Work Section"
 							variant="filled"
+							name="workTime"
+							value={customTiming.workTime}
+							onChange={handleChange}
 						/>
 						<TextField
 							className="modal-input"
 							label="Small break"
 							variant="filled"
+							name="smallBreak"
+							value={customTiming.smallBreak}
+							onChange={handleChange}
 						/>
 						<TextField
 							className="modal-input"
 							label="Big break"
 							variant="filled"
+							name="bigBreak"
+							value={customTiming.bigBreak}
+							onChange={handleChange}
 						/>
 						<Button
+							type="submit"
 							className="modal-button"
 							variant="contained"
 							color="secondary"
