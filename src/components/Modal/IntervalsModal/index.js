@@ -24,9 +24,27 @@ const IntervalsModal = props => {
 	const { modalsController, setModalsController, setIntervals } = props;
 
 	const [sectionsData, setSectionsData] = useState([
-		{ label: "Work Section", name: "workTime", value: "", error: false },
-		{ label: "Small break", name: "smallBreak", value: "", error: false },
-		{ label: "Big break", name: "bigBreak", value: "", error: false },
+		{
+			label: "Work Section",
+			name: "workTime",
+			value: "",
+			error: false,
+			errorMessage: "",
+		},
+		{
+			label: "Small break",
+			name: "smallBreak",
+			value: "",
+			error: false,
+			errorMessage: "",
+		},
+		{
+			label: "Big break",
+			name: "bigBreak",
+			value: "",
+			error: false,
+			errorMessage: "",
+		},
 	]);
 
 	useEffect(() => {
@@ -52,6 +70,7 @@ const IntervalsModal = props => {
 				newArr[objectIndex] = {
 					...prevState[objectIndex],
 					value,
+					error: false,
 				};
 
 				return newArr;
@@ -63,36 +82,47 @@ const IntervalsModal = props => {
 		e.preventDefault();
 
 		let customTimingSeconds = {};
+		let error = false;
 
-		sectionsData.forEach(({ name, value }, index) => {
+		for (let i = 0; i < sectionsData.length; i++) {
+			const { name, value } = sectionsData[i];
+
 			const currentSectionValue = Number(value);
 
 			if (validateInput(currentSectionValue) !== "") {
-				console.log(validateInput(currentSectionValue));
+				setSectionsData(prevState => {
+					let newArr = [...prevState];
+					newArr[i] = {
+						...prevState[i],
+						error: true,
+						errorMessage: validateInput(currentSectionValue),
+					};
+
+					return newArr;
+				});
+
+				error = true;
 			}
 
-			customTimingSeconds[name] = currentSectionValue * 60;
-		});
+			if (currentSectionValue !== 0)
+				customTimingSeconds[name] = currentSectionValue * 60;
+		}
 
-		console.log(customTimingSeconds);
+		if (!error) {
+			setIntervals(prevTiming => ({ ...prevTiming, ...customTimingSeconds }));
 
-		// setIntervals(customTimingSeconds);
-
-		// setModalsController(prevState => ({
-		// 	...prevState,
-		// 	isIntervalsModalOpen: false,
-		// }));
+			setModalsController(prevState => ({
+				...prevState,
+				isIntervalsModalOpen: false,
+			}));
+		}
 	};
 
 	const validateInput = input => {
-		let message = "";
-
-		if (!Number(input)) {
-			message = "*This field is required";
-		} else if (input >= 1440) {
-			message = `*Please input less than 1440 minutes.`;
+		if (input >= 1440) {
+			return "*Please, input less than 1440 minutes.";
 		}
-		return message;
+		return "";
 	};
 
 	return (
@@ -136,7 +166,10 @@ const IntervalsModal = props => {
 						/>
 					</div>
 					<h1>Sections form</h1>
-					<p>Please, input how many minutes you would like for each section</p>
+					<p className="modal-description">
+						You can customize the number of minutes you would like to spend on
+						each task
+					</p>
 					<form className="intervals-form" onSubmit={handleFormSubmition}>
 						{sectionsData.map((section, index) => (
 							<TextField
@@ -147,6 +180,7 @@ const IntervalsModal = props => {
 								name={section.name}
 								value={section.value}
 								error={section.error}
+								helperText={section.errorMessage}
 								onChange={handleChange}
 								autoComplete="off"
 							/>

@@ -33,19 +33,24 @@
 	margin: 16px 0;
 }
 
-.interval-modal p {
+.interval-modal .modal-description {
 	color: #999999;
 	font-family: Roboto, Ubunto, sans-serif;
 	margin: 16px 0;
 }
 
 .interval-modal .modal-input {
-	background-color: #a5a5a586;
 	margin-bottom: 8px;
 	width: 100%;
 }
 
+.interval-modal .modal-input p {
+	margin: 0;
+}
+
 .interval-modal .modal-input input {
+	background-color: #a5a5a586;
+
 	padding: 23px 12px 8px;
 }
 
