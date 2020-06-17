@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 
@@ -22,76 +23,51 @@ const customStyles = {
 
 const IntervalsModal = props => {
 	const { modalsController, setModalsController, setIntervals } = props;
-
-	const [sectionsData, setSectionsData] = useState([
-		{ label: "Work Section", name: "workTime", value: "", error: false },
-		{ label: "Small break", name: "smallBreak", value: "", error: false },
-		{ label: "Big break", name: "bigBreak", value: "", error: false },
-	]);
-
-	useEffect(() => {
-		window.addEventListener("keydown", ({ key }) => {
-			if (key === "ArrowLeft") {
-				setModalsController({
-					isAboutModalOpen: true,
-					isIntervalsModalOpen: false,
-				});
-			}
-		});
-	}, []);
+	const [customTiming, setCustomTiming] = useState({
+		workTime: "",
+		smallBreak: "",
+		bigBreak: "",
+	});
 
 	const handleChange = e => {
 		const { name, value } = e.target;
 		const regex = /^[0-9\b]+$/;
-
 		if (value === "" || regex.test(value)) {
-			const objectIndex = sectionsData.findIndex(obj => obj.name === name);
-
-			setSectionsData(prevState => {
-				let newArr = [...prevState];
-				newArr[objectIndex] = {
-					...prevState[objectIndex],
-					value,
-				};
-
-				return newArr;
-			});
+			setCustomTiming(prevValue => ({ ...prevValue, [name]: value }));
 		}
 	};
 
 	const handleFormSubmition = e => {
 		e.preventDefault();
 
-		console.log(sectionsData);
+		let customTimingSeconds = {};
 
-		// let customTimingSeconds = {};
+		for (const prop in customTiming) {
+			const currentInputValue = Number(customTiming[prop]);
 
-		// for (const prop in customTiming) {
-		// 	const currentInputValue = Number(customTiming[prop]);
+			if (!validateInput(currentInputValue)) {
+				break;
+			}
 
-		// 	// if (!validateInput(currentInputValue)) {
-		// 	// 	break;
-		// 	// }
+			customTimingSeconds[prop] = currentInputValue * 60;
+		}
 
-		// 	customTimingSeconds[prop] = currentInputValue * 60;
-		// }
+		setIntervals(customTimingSeconds);
 
-		// setIntervals(customTimingSeconds);
-
-		// setModalsController(prevState => ({
-		// 	...prevState,
-		// 	isIntervalsModalOpen: false,
-		// }));
+		setModalsController(prevState => ({
+			...prevState,
+			isIntervalsModalOpen: false,
+		}));
 	};
 
-	// const validateInput = input => {
-	// 	const message = `${input} is not a valid number.`;
+	const validateInput = input => {
+		const message = `${input} is not a valid number.`;
 
-	// 	if (!Number(input) || input === "" || input >= 1440) {
-	// 		throw new Error(message);
-	// 	}
-	// 	return true;
-	// };
+		if (!Number(input) || input === "" || input >= 1440) {
+			throw new Error(message);
+		}
+		return true;
+	};
 
 	return (
 		<Modal
@@ -136,18 +112,30 @@ const IntervalsModal = props => {
 					<h1>Sections form</h1>
 					<p>Please, input how many minutes you would like for each section</p>
 					<form className="intervals-form" onSubmit={handleFormSubmition}>
-						{sectionsData.map((section, index) => (
-							<TextField
-								key={index}
-								className="modal-input"
-								label={section.label}
-								variant="filled"
-								name={section.name}
-								value={section.value}
-								error={section.error}
-								onChange={handleChange}
-							/>
-						))}
+						<TextField
+							className="modal-input"
+							label="Work Section"
+							variant="filled"
+							name="workTime"
+							value={customTiming.workTime}
+							onChange={handleChange}
+						/>
+						<TextField
+							className="modal-input"
+							label="Small break"
+							variant="filled"
+							name="smallBreak"
+							value={customTiming.smallBreak}
+							onChange={handleChange}
+						/>
+						<TextField
+							className="modal-input"
+							label="Big break"
+							variant="filled"
+							name="bigBreak"
+							value={customTiming.bigBreak}
+							onChange={handleChange}
+						/>
 						<Button
 							type="submit"
 							className="modal-button"
