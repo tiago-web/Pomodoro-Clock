@@ -82,15 +82,18 @@ const IntervalsModal = props => {
 		e.preventDefault();
 
 		let customTimingSeconds = {};
+		let error = false;
 
-		sectionsData.forEach(({ name, value }, index) => {
+		for (let i = 0; i < sectionsData.length; i++) {
+			const { name, value } = sectionsData[i];
+
 			const currentSectionValue = Number(value);
 
 			if (validateInput(currentSectionValue) !== "") {
 				setSectionsData(prevState => {
 					let newArr = [...prevState];
-					newArr[index] = {
-						...prevState[index],
+					newArr[i] = {
+						...prevState[i],
 						error: true,
 						errorMessage: validateInput(currentSectionValue),
 					};
@@ -98,28 +101,28 @@ const IntervalsModal = props => {
 					return newArr;
 				});
 
-				// Prevent form submitting if error!
+				error = true;
 			}
-			customTimingSeconds[name] = currentSectionValue * 60;
-		});
 
-		setIntervals(customTimingSeconds);
+			if (currentSectionValue !== 0)
+				customTimingSeconds[name] = currentSectionValue * 60;
+		}
 
-		setModalsController(prevState => ({
-			...prevState,
-			isIntervalsModalOpen: false,
-		}));
+		if (!error) {
+			setIntervals(prevTiming => ({ ...prevTiming, ...customTimingSeconds }));
+
+			setModalsController(prevState => ({
+				...prevState,
+				isIntervalsModalOpen: false,
+			}));
+		}
 	};
 
 	const validateInput = input => {
-		let message = "";
-
-		if (!Number(input)) {
-			message = "*This field is required";
-		} else if (input >= 1440) {
-			message = `*Please, input less than 1440 minutes.`;
+		if (input >= 1440) {
+			return "*Please, input less than 1440 minutes.";
 		}
-		return message;
+		return "";
 	};
 
 	return (
@@ -164,7 +167,8 @@ const IntervalsModal = props => {
 					</div>
 					<h1>Sections form</h1>
 					<p className="modal-description">
-						Please, input how many minutes you would like for each section
+						You can customize the number of minutes you would like to spend on
+						each task
 					</p>
 					<form className="intervals-form" onSubmit={handleFormSubmition}>
 						{sectionsData.map((section, index) => (
