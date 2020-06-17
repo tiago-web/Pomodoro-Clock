@@ -62,19 +62,19 @@ const IntervalsModal = props => {
 	const handleFormSubmition = e => {
 		e.preventDefault();
 
-		console.log(sectionsData);
+		let customTimingSeconds = {};
 
-		// let customTimingSeconds = {};
+		sectionsData.forEach(({ name, value }, index) => {
+			const currentSectionValue = Number(value);
 
-		// for (const prop in customTiming) {
-		// 	const currentInputValue = Number(customTiming[prop]);
+			if (validateInput(currentSectionValue) !== "") {
+				console.log(validateInput(currentSectionValue));
+			}
 
-		// 	// if (!validateInput(currentInputValue)) {
-		// 	// 	break;
-		// 	// }
+			customTimingSeconds[name] = currentSectionValue * 60;
+		});
 
-		// 	customTimingSeconds[prop] = currentInputValue * 60;
-		// }
+		console.log(customTimingSeconds);
 
 		// setIntervals(customTimingSeconds);
 
@@ -84,14 +84,16 @@ const IntervalsModal = props => {
 		// }));
 	};
 
-	// const validateInput = input => {
-	// 	const message = `${input} is not a valid number.`;
+	const validateInput = input => {
+		let message = "";
 
-	// 	if (!Number(input) || input === "" || input >= 1440) {
-	// 		throw new Error(message);
-	// 	}
-	// 	return true;
-	// };
+		if (!Number(input)) {
+			message = "*This field is required";
+		} else if (input >= 1440) {
+			message = `*Please input less than 1440 minutes.`;
+		}
+		return message;
+	};
 
 	return (
 		<Modal
@@ -146,6 +148,7 @@ const IntervalsModal = props => {
 								value={section.value}
 								error={section.error}
 								onChange={handleChange}
+								autoComplete="off"
 							/>
 						))}
 						<Button
