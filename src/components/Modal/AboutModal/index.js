@@ -26,9 +26,16 @@ const AboutModal = props => {
 			style={customStyles}
 			overlayClassName="about-modal-overlay"
 			className="about-modal"
-			shouldFocusAfterRender={false}
 			contentLabel="About the pomodoro technique"
 			ariaHideApp={false}
+			shouldCloseOnEsc={true}
+			shouldCloseOnOverlayClick={false}
+			onRequestClose={() =>
+				setModalsController(prevState => ({
+					...prevState,
+					isAboutModalOpen: false,
+				}))
+			}
 		>
 			<div className="modal-container">
 				<div className="invisible-div"></div>
