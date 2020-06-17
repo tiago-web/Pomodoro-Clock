@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
 
@@ -23,11 +22,6 @@ const customStyles = {
 
 const IntervalsModal = props => {
 	const { modalsController, setModalsController, setIntervals } = props;
-	const [customTiming, setCustomTiming] = useState({
-		workTime: "",
-		smallBreak: "",
-		bigBreak: "",
-	});
 
 	const [sectionsData, setSectionsData] = useState([
 		{ label: "Work Section", name: "workTime", value: "", error: false },
@@ -35,15 +29,32 @@ const IntervalsModal = props => {
 		{ label: "Big break", name: "bigBreak", value: "", error: false },
 	]);
 
+	useEffect(() => {
+		window.addEventListener("keydown", ({ key }) => {
+			if (key === "ArrowLeft") {
+				setModalsController({
+					isAboutModalOpen: true,
+					isIntervalsModalOpen: false,
+				});
+			}
+		});
+	}, []);
+
 	const handleChange = e => {
 		const { name, value } = e.target;
 		const regex = /^[0-9\b]+$/;
+
 		if (value === "" || regex.test(value)) {
-			setCustomTiming(prevValue => {
-				return {
-					...prevValue,
-					[name]: value,
+			const objectIndex = sectionsData.findIndex(obj => obj.name === name);
+
+			setSectionsData(prevState => {
+				let newArr = [...prevState];
+				newArr[objectIndex] = {
+					...prevState[objectIndex],
+					value,
 				};
+
+				return newArr;
 			});
 		}
 	};
@@ -53,31 +64,35 @@ const IntervalsModal = props => {
 
 		let customTimingSeconds = {};
 
-		for (const prop in customTiming) {
-			const currentInputValue = Number(customTiming[prop]);
+		sectionsData.forEach(({ name, value }, index) => {
+			const currentSectionValue = Number(value);
 
-			if (!validateInput(currentInputValue)) {
-				break;
+			if (validateInput(currentSectionValue) !== "") {
+				console.log(validateInput(currentSectionValue));
 			}
 
-			customTimingSeconds[prop] = currentInputValue * 60;
-		}
+			customTimingSeconds[name] = currentSectionValue * 60;
+		});
 
-		setIntervals(customTimingSeconds);
+		console.log(customTimingSeconds);
 
-		setModalsController(prevState => ({
-			...prevState,
-			isIntervalsModalOpen: false,
-		}));
+		// setIntervals(customTimingSeconds);
+
+		// setModalsController(prevState => ({
+		// 	...prevState,
+		// 	isIntervalsModalOpen: false,
+		// }));
 	};
 
 	const validateInput = input => {
-		const message = `${input} is not a valid number.`;
+		let message = "";
 
-		if (!Number(input) || input === "" || input >= 1440) {
-			throw new Error(message);
+		if (!Number(input)) {
+			message = "*This field is required";
+		} else if (input >= 1440) {
+			message = `*Please input less than 1440 minutes.`;
 		}
-		return true;
+		return message;
 	};
 
 	return (
@@ -123,30 +138,19 @@ const IntervalsModal = props => {
 					<h1>Sections form</h1>
 					<p>Please, input how many minutes you would like for each section</p>
 					<form className="intervals-form" onSubmit={handleFormSubmition}>
-						<TextField
-							className="modal-input"
-							label="Work Section"
-							variant="filled"
-							name="workTime"
-							value={customTiming.workTime}
-							onChange={handleChange}
-						/>
-						<TextField
-							className="modal-input"
-							label="Small break"
-							variant="filled"
-							name="smallBreak"
-							value={customTiming.smallBreak}
-							onChange={handleChange}
-						/>
-						<TextField
-							className="modal-input"
-							label="Big break"
-							variant="filled"
-							name="bigBreak"
-							value={customTiming.bigBreak}
-							onChange={handleChange}
-						/>
+						{sectionsData.map((section, index) => (
+							<TextField
+								key={index}
+								className="modal-input"
+								label={section.label}
+								variant="filled"
+								name={section.name}
+								value={section.value}
+								error={section.error}
+								onChange={handleChange}
+								autoComplete="off"
+							/>
+						))}
 						<Button
 							type="submit"
 							className="modal-button"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 
 import CloseIcon from "@material-ui/icons/Close";
@@ -19,6 +19,17 @@ const customStyles = {
 
 const AboutModal = props => {
 	const { modalsController, setModalsController } = props;
+
+	useEffect(() => {
+		window.addEventListener("keydown", ({ key }) => {
+			if (key === "ArrowRight") {
+				setModalsController({
+					isAboutModalOpen: false,
+					isIntervalsModalOpen: true,
+				});
+			}
+		});
+	}, []);
 
 	return (
 		<Modal
