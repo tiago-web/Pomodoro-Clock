@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import "./styles.css";
 
-import Snackbar, { useSnackBar } from "../../Snackbar/index";
+import Snackbar from "../../Snackbar/index";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -48,7 +48,7 @@ const IntervalsModal = props => {
 		},
 	]);
 
-	const [, setConfirmSubmition] = useSnackBar();
+	const [confirmSubmition, setConfirmSubmition] = useState(false);
 
 	useEffect(() => {
 		window.addEventListener("keydown", ({ key }) => {
@@ -62,7 +62,6 @@ const IntervalsModal = props => {
 	}, []);
 
 	const handleChange = e => {
-		setConfirmSubmition(true);
 		const { name, value } = e.target;
 		const regex = /^[0-9\b]+$/;
 
@@ -118,6 +117,7 @@ const IntervalsModal = props => {
 
 		if (!error) {
 			setConfirmSubmition(true);
+
 			setIntervals(defaultTimes => ({
 				...defaultTimes,
 				...customTimingInSeconds,
@@ -135,79 +135,81 @@ const IntervalsModal = props => {
 	};
 
 	return (
-		<Modal
-			isOpen={modalsController.isIntervalsModalOpen}
-			style={customStyles}
-			overlayClassName="interval-modal-overlay"
-			className="interval-modal"
-			contentLabel="Intervals form"
-			ariaHideApp={false}
-			shouldCloseOnEsc={true}
-			shouldCloseOnOverlayClick={false}
-			onRequestClose={() =>
-				setModalsController(prevState => ({
-					...prevState,
-					isIntervalsModalOpen: false,
-				}))
-			}
-		>
-			<div className="modal-container">
-				<div className="modal-previous-page-icon">
-					<ArrowBackIosOutlinedIcon
-						onClick={() =>
-							setModalsController({
-								isAboutModalOpen: true,
-								isIntervalsModalOpen: false,
-							})
-						}
-					/>
-				</div>
-
-				<div className="modal-content">
-					<div className="modal-close-icon">
-						<CloseIcon
+		<>
+			<Modal
+				isOpen={modalsController.isIntervalsModalOpen}
+				style={customStyles}
+				overlayClassName="interval-modal-overlay"
+				className="interval-modal"
+				contentLabel="Intervals form"
+				ariaHideApp={false}
+				shouldCloseOnEsc={true}
+				shouldCloseOnOverlayClick={false}
+				onRequestClose={() =>
+					setModalsController(prevState => ({
+						...prevState,
+						isIntervalsModalOpen: false,
+					}))
+				}
+			>
+				<div className="modal-container">
+					<div className="modal-previous-page-icon">
+						<ArrowBackIosOutlinedIcon
 							onClick={() =>
-								setModalsController(prevState => ({
-									...prevState,
+								setModalsController({
+									isAboutModalOpen: true,
 									isIntervalsModalOpen: false,
-								}))
+								})
 							}
 						/>
 					</div>
-					<h1>Sections form</h1>
-					<p className="modal-description">
-						You can customize the number of minutes you would like to spend on
-						each task
-					</p>
-					<form className="intervals-form" onSubmit={handleFormSubmition}>
-						{sectionsData.map((section, index) => (
-							<TextField
-								key={index}
-								className="modal-input"
-								label={section.label}
-								variant="filled"
-								name={section.name}
-								value={section.value}
-								error={section.error}
-								helperText={section.errorMessage}
-								onChange={handleChange}
-								autoComplete="off"
+
+					<div className="modal-content">
+						<div className="modal-close-icon">
+							<CloseIcon
+								onClick={() =>
+									setModalsController(prevState => ({
+										...prevState,
+										isIntervalsModalOpen: false,
+									}))
+								}
 							/>
-						))}
-						<Button
-							type="submit"
-							className="modal-button"
-							variant="contained"
-							color="secondary"
-						>
-							Confirm
-						</Button>
-					</form>
-					<Snackbar />
+						</div>
+						<h1>Sections interval form</h1>
+						<p className="modal-description">
+							You can customize the number of minutes you would like to spend on
+							each task
+						</p>
+						<form className="intervals-form" onSubmit={handleFormSubmition}>
+							{sectionsData.map((section, index) => (
+								<TextField
+									key={index}
+									className="modal-input"
+									label={section.label}
+									variant="filled"
+									name={section.name}
+									value={section.value}
+									error={section.error}
+									helperText={section.errorMessage}
+									onChange={handleChange}
+									autoComplete="off"
+								/>
+							))}
+							<Button
+								type="submit"
+								className="modal-button"
+								variant="contained"
+								color="secondary"
+							>
+								Confirm
+							</Button>
+						</form>
+					</div>
+					<div className="invisible-div"></div>
 				</div>
-				<div className="invisible-div"></div>
-			</div>
-		</Modal>
+			</Modal>
+			<Snackbar confirmSubmition={confirmSubmition} />
+		</>
 	);
 };
 

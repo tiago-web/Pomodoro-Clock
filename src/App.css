@@ -35,3 +35,21 @@ h5,
 h6 {
 	font-family: Ubuntu;
 }
+
+.App main {
+	display: grid;
+	margin: auto;
+	/* width: 50%; */
+	justify-content: center;
+	grid-template-columns: 1fr 230px 1fr;
+	grid-template-rows: 1fr;
+	grid-template-areas: ". CL ST";
+}
+
+.App main #clock {
+	grid-area: CL;
+}
+
+.App main #settings {
+	grid-area: ST;
+}

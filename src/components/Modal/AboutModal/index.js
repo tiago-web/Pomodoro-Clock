@@ -29,7 +29,7 @@ const AboutModal = props => {
 				});
 			}
 		});
-	}, []);
+	}, [setModalsController]);
 
 	return (
 		<Modal
