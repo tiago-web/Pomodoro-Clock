@@ -4,15 +4,14 @@ import Audio, { useAudio } from "../Audio/Audio";
 
 import "./styles.css";
 
-const Clock = props => {
+const Clock = ({
+	setPomodoroCount,
+	setBreakTime,
+	breakTime,
+	intervals,
+	intervalStatus,
+}) => {
 	const { setIsPlayingAudio } = useAudio();
-	const {
-		setPomodoroCount,
-		setBreakTime,
-		breakTime,
-		intervals,
-		intervalStatus,
-	} = props;
 
 	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
 	const [seconds, setSeconds] = useState(intervals.workTime);
@@ -70,7 +69,19 @@ const Clock = props => {
 		}
 	}, [intervalStatus, intervals]);
 
-	const handleResetButton = () => {
+	useEffect(() => {
+		setSeconds(
+			breakTime
+				? intervalStatus.includes("small")
+					? intervals.smallBreak
+					: intervals.bigBreak
+				: intervals.workTime
+		);
+		setCountdownIsRunning(false);
+		setIsPlayingAudio(false);
+	}, [intervals]);
+
+	const handleResetClick = () => {
 		setSeconds(
 			breakTime
 				? intervalStatus.includes("small")
@@ -103,10 +114,20 @@ const Clock = props => {
 					<button onClick={() => setCountdownIsRunning(false)}>Stop</button>
 				)}
 
-				<button onClick={handleResetButton}>Reset</button>
+				<button onClick={handleResetClick}>Reset</button>
 			</div>
 		</div>
 	);
 };
+
+// export const useClock = (bool) => {
+// 	const [resetClock, setResetClock] = useState(false);
+
+// 	useEffect(() => {
+// 		setResetClock(bool);
+// 	}, [])
+
+// 	return resetClock;
+// };
 
 export default Clock;

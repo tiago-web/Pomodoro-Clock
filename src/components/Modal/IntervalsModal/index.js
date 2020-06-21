@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
-import "./styles.css";
-
 import Snackbar from "../../Snackbar/index";
+
+import "./styles.css";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -22,8 +22,11 @@ const customStyles = {
 	},
 };
 
-const IntervalsModal = props => {
-	const { modalsController, setModalsController, setIntervals } = props;
+const IntervalsModal = ({
+	modalsController,
+	setModalsController,
+	setIntervals,
+}) => {
 	const [sectionsData, setSectionsData] = useState([
 		{
 			label: "Work Section",
@@ -59,7 +62,7 @@ const IntervalsModal = props => {
 				});
 			}
 		});
-	}, []);
+	}, [setModalsController]);
 
 	const handleChange = e => {
 		const { name, value } = e.target;

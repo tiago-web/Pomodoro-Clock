@@ -2,8 +2,7 @@ import React from "react";
 
 import "./styles.css";
 
-const Header = props => {
-	const { intervalStatus } = props;
+const Header = ({ intervalStatus }) => {
 	return (
 		<div id="header">
 			<header>

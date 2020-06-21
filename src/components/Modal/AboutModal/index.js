@@ -17,9 +17,7 @@ const customStyles = {
 	},
 };
 
-const AboutModal = props => {
-	const { modalsController, setModalsController } = props;
-
+const AboutModal = ({ modalsController, setModalsController }) => {
 	useEffect(() => {
 		window.addEventListener("keydown", ({ key }) => {
 			if (key === "ArrowRight") {
