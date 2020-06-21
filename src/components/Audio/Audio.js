@@ -17,5 +17,5 @@ export const useAudio = () => {
 		isPlayingAudio ? audio.play() : audio.pause();
 	}, [isPlayingAudio]);
 
-	return { isPlayingAudio, setIsPlayingAudio };
+	return { setIsPlayingAudio };
 };

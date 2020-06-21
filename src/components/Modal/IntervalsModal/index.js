@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import "./styles.css";
+
+import Snackbar, { useSnackBar } from "../../Snackbar/index";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
-
-import "./styles.css";
 
 const customStyles = {
 	content: {
@@ -22,7 +24,6 @@ const customStyles = {
 
 const IntervalsModal = props => {
 	const { modalsController, setModalsController, setIntervals } = props;
-
 	const [sectionsData, setSectionsData] = useState([
 		{
 			label: "Work Section",
@@ -47,6 +48,8 @@ const IntervalsModal = props => {
 		},
 	]);
 
+	const [, setConfirmSubmition] = useSnackBar();
+
 	useEffect(() => {
 		window.addEventListener("keydown", ({ key }) => {
 			if (key === "ArrowLeft") {
@@ -59,6 +62,7 @@ const IntervalsModal = props => {
 	}, []);
 
 	const handleChange = e => {
+		setConfirmSubmition(true);
 		const { name, value } = e.target;
 		const regex = /^[0-9\b]+$/;
 
@@ -113,6 +117,7 @@ const IntervalsModal = props => {
 		}
 
 		if (!error) {
+			setConfirmSubmition(true);
 			setIntervals(defaultTimes => ({
 				...defaultTimes,
 				...customTimingInSeconds,
@@ -198,6 +203,7 @@ const IntervalsModal = props => {
 							Confirm
 						</Button>
 					</form>
+					<Snackbar />
 				</div>
 				<div className="invisible-div"></div>
 			</div>
