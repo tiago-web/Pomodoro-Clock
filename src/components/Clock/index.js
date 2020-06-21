@@ -11,7 +11,7 @@ const Clock = props => {
 		setBreakTime,
 		breakTime,
 		intervals,
-		workStatus,
+		intervalStatus,
 	} = props;
 
 	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
@@ -61,19 +61,19 @@ const Clock = props => {
 	}, [breakTime, setPomodoroCount]);
 
 	useEffect(() => {
-		if (workStatus.includes("small")) {
+		if (intervalStatus.includes("small")) {
 			setSeconds(intervals.smallBreak);
-		} else if (workStatus.includes("big")) {
+		} else if (intervalStatus.includes("big")) {
 			setSeconds(intervals.bigBreak);
 		} else {
 			setSeconds(intervals.workTime);
 		}
-	}, [workStatus, intervals]);
+	}, [intervalStatus, intervals]);
 
 	const handleResetButton = () => {
 		setSeconds(
 			breakTime
-				? workStatus.includes("small")
+				? intervalStatus.includes("small")
 					? intervals.smallBreak
 					: intervals.bigBreak
 				: intervals.workTime

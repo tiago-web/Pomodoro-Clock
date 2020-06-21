@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
+import "./styles.css";
+
+import Snackbar, { useSnackBar } from "../../Snackbar/index";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+
 import CloseIcon from "@material-ui/icons/Close";
 import ArrowBackIosOutlinedIcon from "@material-ui/icons/ArrowBackIosOutlined";
-
-import "./styles.css";
 
 const customStyles = {
 	content: {
@@ -22,7 +24,6 @@ const customStyles = {
 
 const IntervalsModal = props => {
 	const { modalsController, setModalsController, setIntervals } = props;
-
 	const [sectionsData, setSectionsData] = useState([
 		{
 			label: "Work Section",
@@ -47,6 +48,8 @@ const IntervalsModal = props => {
 		},
 	]);
 
+	const [, setConfirmSubmition] = useSnackBar();
+
 	useEffect(() => {
 		window.addEventListener("keydown", ({ key }) => {
 			if (key === "ArrowLeft") {
@@ -59,18 +62,22 @@ const IntervalsModal = props => {
 	}, []);
 
 	const handleChange = e => {
+		setConfirmSubmition(true);
 		const { name, value } = e.target;
 		const regex = /^[0-9\b]+$/;
 
 		if (value === "" || regex.test(value)) {
-			const objectIndex = sectionsData.findIndex(obj => obj.name === name);
+			const changingSectionIndex = sectionsData.findIndex(
+				obj => obj.name === name
+			);
 
 			setSectionsData(prevState => {
 				let newArr = [...prevState];
-				newArr[objectIndex] = {
-					...prevState[objectIndex],
+				newArr[changingSectionIndex] = {
+					...prevState[changingSectionIndex],
 					value,
 					error: false,
+					errorMessage: "",
 				};
 
 				return newArr;
@@ -81,7 +88,7 @@ const IntervalsModal = props => {
 	const handleFormSubmition = e => {
 		e.preventDefault();
 
-		let customTimingSeconds = {};
+		let customTimingInSeconds = {};
 		let error = false;
 
 		for (let i = 0; i < sectionsData.length; i++) {
@@ -89,13 +96,15 @@ const IntervalsModal = props => {
 
 			const currentSectionValue = Number(value);
 
-			if (validateInput(currentSectionValue) !== "") {
+			const errorMessage = validateInput(currentSectionValue);
+
+			if (errorMessage !== "") {
 				setSectionsData(prevState => {
 					let newArr = [...prevState];
 					newArr[i] = {
 						...prevState[i],
 						error: true,
-						errorMessage: validateInput(currentSectionValue),
+						errorMessage,
 					};
 
 					return newArr;
@@ -104,12 +113,15 @@ const IntervalsModal = props => {
 				error = true;
 			}
 
-			if (currentSectionValue !== 0)
-				customTimingSeconds[name] = currentSectionValue * 60;
+			if (value !== "") customTimingInSeconds[name] = currentSectionValue * 60;
 		}
 
 		if (!error) {
-			setIntervals(prevTiming => ({ ...prevTiming, ...customTimingSeconds }));
+			setConfirmSubmition(true);
+			setIntervals(defaultTimes => ({
+				...defaultTimes,
+				...customTimingInSeconds,
+			}));
 
 			setModalsController(prevState => ({
 				...prevState,
@@ -119,10 +131,7 @@ const IntervalsModal = props => {
 	};
 
 	const validateInput = input => {
-		if (input >= 1440) {
-			return "*Please, input less than 1440 minutes.";
-		}
-		return "";
+		return input >= 1440 ? "*Please, input less than 1440 minutes." : "";
 	};
 
 	return (
@@ -194,6 +203,7 @@ const IntervalsModal = props => {
 							Confirm
 						</Button>
 					</form>
+					<Snackbar />
 				</div>
 				<div className="invisible-div"></div>
 			</div>

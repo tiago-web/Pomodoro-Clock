@@ -10,7 +10,7 @@ import "./App.css";
 const App = () => {
 	const [pomodoroCount, setPomodoroCount] = useState(0);
 	const [breakTime, setBreakTime] = useState(false);
-	const [workStatus, setWorkStatus] = useState("It's work time!");
+	const [intervalStatus, setIntervalStatus] = useState("It's work time!");
 	const [intervals, setIntervals] = useState({
 		workTime: 1500,
 		smallBreak: 300,
@@ -28,20 +28,20 @@ const App = () => {
 		}
 
 		if (pomodoroCount === 4 && breakTime) {
-			setWorkStatus("It's time for a big break!");
+			setIntervalStatus("It's time for a big break!");
 			return;
 		}
 
 		if (breakTime) {
-			setWorkStatus("It's time for a small break!");
+			setIntervalStatus("It's time for a small break!");
 		} else {
-			setWorkStatus("It's work time!");
+			setIntervalStatus("It's work time!");
 		}
 	}, [breakTime, pomodoroCount]);
 
 	return (
 		<div className="App">
-			<Header workStatus={workStatus} />
+			<Header intervalStatus={intervalStatus} />
 			<AboutModal
 				modalsController={modalsController}
 				setModalsController={setModalsController}
@@ -55,7 +55,7 @@ const App = () => {
 				setPomodoroCount={setPomodoroCount}
 				setBreakTime={setBreakTime}
 				breakTime={breakTime}
-				workStatus={workStatus}
+				intervalStatus={intervalStatus}
 				intervals={intervals}
 			/>
 			<Footer />
