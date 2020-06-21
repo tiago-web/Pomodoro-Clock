@@ -10,6 +10,7 @@ export default () => {
 
 export const useAudio = () => {
 	const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+	const [volume, setVolume] = useState(0.5);
 
 	useEffect(() => {
 		const audio = document.getElementById("audio");
@@ -17,5 +18,11 @@ export const useAudio = () => {
 		isPlayingAudio ? audio.play() : audio.pause();
 	}, [isPlayingAudio]);
 
-	return { setIsPlayingAudio };
+	useEffect(() => {
+		const audio = document.getElementById("audio");
+
+		audio.volume = volume;
+	}, [volume]);
+
+	return { setIsPlayingAudio, setVolume };
 };

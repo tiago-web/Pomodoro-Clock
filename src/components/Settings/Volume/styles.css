@@ -1,0 +1,9 @@
+.volume-control {
+	display: flex;
+	align-items: center;
+	max-width: 100px;
+}
+
+.MuiSlider-root {
+	margin-top: auto;
+}

@@ -4,6 +4,7 @@ import Header from "./components/Header/index";
 import Footer from "./components/Footer/index";
 import AboutModal from "./components/Modal/AboutModal/index";
 import IntervalsModal from "./components/Modal/IntervalsModal/index";
+import Settings from "./components/Settings/index";
 
 import "./App.css";
 
@@ -42,6 +43,17 @@ const App = () => {
 	return (
 		<div className="App">
 			<Header intervalStatus={intervalStatus} />
+			<main>
+				<Clock
+					setPomodoroCount={setPomodoroCount}
+					setBreakTime={setBreakTime}
+					breakTime={breakTime}
+					intervalStatus={intervalStatus}
+					intervals={intervals}
+				/>
+				<Settings setModalsController={setModalsController} />
+			</main>
+			<Footer />
 			<AboutModal
 				modalsController={modalsController}
 				setModalsController={setModalsController}
@@ -51,14 +63,6 @@ const App = () => {
 				setModalsController={setModalsController}
 				setIntervals={setIntervals}
 			/>
-			<Clock
-				setPomodoroCount={setPomodoroCount}
-				setBreakTime={setBreakTime}
-				breakTime={breakTime}
-				intervalStatus={intervalStatus}
-				intervals={intervals}
-			/>
-			<Footer />
 		</div>
 	);
 };

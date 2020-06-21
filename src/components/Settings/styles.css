@@ -1,0 +1,16 @@
+#settings {
+	margin-top: 8px;
+}
+
+#settings svg {
+	width: 24px;
+	height: 24px;
+	border-radius: 100%;
+	cursor: pointer;
+	display: flex;
+	margin: 8px 12px 0 0;
+}
+
+#settings svg:hover {
+	background-color: #fff;
+}
