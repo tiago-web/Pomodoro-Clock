@@ -31,7 +31,7 @@ const Clock = ({
 
 		const timeout = setTimeout(() => {
 			setSeconds(prevSeconds => prevSeconds - 1);
-		}, 100);
+		}, 1000);
 
 		setCountdownTimeout(timeout);
 	}, [
