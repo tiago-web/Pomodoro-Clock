@@ -14,7 +14,6 @@ export const useAudio = () => {
 
 	useEffect(() => {
 		const audio = document.getElementById("audio");
-		audio.load();
 
 		isPlayingAudio ? audio.play() : audio.pause();
 	}, [isPlayingAudio]);
