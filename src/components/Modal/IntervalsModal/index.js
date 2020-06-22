@@ -54,6 +54,10 @@ const IntervalsModal = ({
 	const [confirmSubmition, setConfirmSubmition] = useState(false);
 
 	useEffect(() => {
+		setConfirmSubmition(false);
+	}, [modalsController]);
+
+	useEffect(() => {
 		window.addEventListener("keydown", ({ key }) => {
 			if (key === "ArrowLeft") {
 				setModalsController({

@@ -75,6 +75,12 @@ const AboutModal = ({ modalsController, setModalsController }) => {
 							This technique can be used in any task since its goal is to make
 							you more productive.
 						</p>
+						<p className="extra-note">
+							<strong>Important! </strong> This app has default values for the
+							work sections, small breaks, big breaks. But you can customize
+							them according to your needs. On the next page you can set the
+							minutes for each section as you like.
+						</p>
 					</div>
 				</div>
 				<div className="modal-next-page-icon">

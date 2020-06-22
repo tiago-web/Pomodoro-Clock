@@ -81,3 +81,11 @@
 .about-modal .invisible-div {
 	width: 10%;
 }
+
+.about-modal .extra-note {
+	margin-top: 32px;
+}
+
+.about-modal .extra-note strong {
+	color: #acacac;
+}

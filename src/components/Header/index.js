@@ -10,7 +10,7 @@ const Header = ({ intervalStatus }) => {
 
 				<img src="./images/tomato.png" alt="tomato-icon" />
 			</header>
-			<p>{intervalStatus}</p>
+			<h2>{intervalStatus}</h2>
 		</div>
 	);
 };

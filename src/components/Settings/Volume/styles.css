@@ -9,9 +9,9 @@
 
 @media only screen and (max-width: 480px) {
 	.volume-control {
-		max-width: 72%;
+		max-width: 70%;
 	}
 	.MuiSlider-root {
-		margin: auto 0 0 4px;
+		margin: auto 0 0 8px;
 	}
 }
