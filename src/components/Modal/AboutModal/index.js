@@ -65,10 +65,11 @@ const AboutModal = ({ modalsController, setModalsController }) => {
 							The pomodoro technique is a time management method that aims to
 							make you more productive. The technique uses a timer to set short
 							intervals between your work sections, generally 25 minutes, and 3
-							to 5 minutes of break. After four pomodoros (working sections) a
-							long break should be taken (15 to 30 minutes) and then, start over
-							again. You shall end when the time you set out to spend on the
-							task is over.
+							to 5 minutes of break. Each working interval is known as a
+							pomodoro, from the Italian word for 'tomato'. After four pomodoros
+							a long break should be taken (15 to 30 minutes) and then, start
+							over again. You shall end when the time you set out to spend on
+							the task is over.
 						</p>
 						<p>
 							This technique can be used in any task since its goal is to make
