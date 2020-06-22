@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useAudio } from "../../Audio/Audio";
+
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
 import VolumeOffIcon from "@material-ui/icons/VolumeOff";
-import Slider from "@material-ui/core/Slider";
 
-import { useAudio } from "../../Audio/Audio";
+import Slider from "@material-ui/core/Slider";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 
 import "./styles.css";
 
@@ -51,16 +53,18 @@ export default () => {
 	};
 
 	return (
-		<div className="volume-control" onMouseLeave={() => setMouseOver(false)}>
-			{handleIconDisplay()}
-			<Slider
-				value={typeof value === "number" ? value : 0}
-				onChange={handleSliderChange}
-				aria-labelledby="input-slider"
-				valueLabelFormat={() => value}
-				valueLabelDisplay="auto"
-				style={{ display: mouseOver ? "" : "none" }}
-			/>
-		</div>
+		<ClickAwayListener onClickAway={() => setMouseOver(false)}>
+			<div className="volume-control" onMouseLeave={() => setMouseOver(false)}>
+				{handleIconDisplay()}
+				<Slider
+					value={typeof value === "number" ? value : 0}
+					onChange={handleSliderChange}
+					aria-labelledby="input-slider"
+					valueLabelFormat={() => value}
+					valueLabelDisplay="auto"
+					style={{ display: mouseOver ? "" : "none" }}
+				/>
+			</div>
+		</ClickAwayListener>
 	);
 };

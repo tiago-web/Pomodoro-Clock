@@ -6,13 +6,14 @@
 
 #header h1 {
 	color: var(--title-color);
-	font-size: 2rem;
+	font-size: 2.3rem;
 }
 
 #header img {
 	margin-left: 8px;
 	width: 32px;
 	height: 32px;
+	align-self: center;
 }
 
 @media only screen and (max-width: 500px) {
@@ -23,6 +24,8 @@
 	}
 }
 
-#header p {
-	margin-top: 46px;
+#header h2 {
+	margin-top: 56px;
+	color: #3f51b5;
+	font-size: 1.5rem;
 }

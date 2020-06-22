@@ -15,7 +15,9 @@ export default ({ confirmSubmition }) => {
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
-		setOpen(true);
+		if (confirmSubmition) {
+			setOpen(true);
+		}
 	}, [confirmSubmition]);
 
 	const handleClose = (event, reason) => {
