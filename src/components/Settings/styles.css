@@ -8,9 +8,13 @@
 	border-radius: 100%;
 	cursor: pointer;
 	display: flex;
-	margin: 8px 12px 0 0;
+	margin-top: 8px;
 }
 
 #settings svg:hover {
 	background-color: #fff;
+}
+
+#settings .moreIcon {
+	margin-right: auto;
 }
