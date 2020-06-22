@@ -22,7 +22,11 @@ export const useAudio = () => {
 		const audio = document.getElementById("audio");
 
 		audio.volume = volume;
-	}, [volume]);
+
+		if (isPlayingAudio && volume === 0) {
+			audio.pause();
+		}
+	}, [volume, isPlayingAudio]);
 
 	return { setIsPlayingAudio, setVolume };
 };
