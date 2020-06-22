@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 
+import "./styles.css";
+
 function Alert(props) {
 	return (
 		<MuiAlert elevation={6} severity="success" variant="filled" {...props} />
@@ -31,7 +33,9 @@ export default ({ confirmSubmition }) => {
 			autoHideDuration={3000}
 			onClose={handleClose}
 		>
-			<Alert onClose={handleClose}>Intervals customized successfully!</Alert>
+			<Alert onClose={handleClose}>
+				Intervals were successfully customized!
+			</Alert>
 		</Snackbar>
 	);
 };

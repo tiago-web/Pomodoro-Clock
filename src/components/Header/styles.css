@@ -6,11 +6,21 @@
 
 #header h1 {
 	color: var(--title-color);
+	font-size: 2rem;
 }
 
 #header img {
 	margin-left: 8px;
 	width: 32px;
+	height: 32px;
+}
+
+@media only screen and (max-width: 500px) {
+	#header img {
+		width: 24px;
+		height: 24px;
+		align-self: center;
+	}
 }
 
 #header p {

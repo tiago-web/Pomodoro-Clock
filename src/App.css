@@ -38,9 +38,7 @@ h6 {
 
 .App main {
 	display: grid;
-	margin: auto;
-	/* width: 50%; */
-	justify-content: center;
+
 	grid-template-columns: 1fr 230px 1fr;
 	grid-template-rows: 1fr;
 	grid-template-areas: ". CL ST";

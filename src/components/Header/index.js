@@ -7,6 +7,7 @@ const Header = ({ intervalStatus }) => {
 		<div id="header">
 			<header>
 				<h1>Pomodoro Clock</h1>
+
 				<img src="./images/tomato.png" alt="tomato-icon" />
 			</header>
 			<p>{intervalStatus}</p>

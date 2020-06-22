@@ -1,7 +1,6 @@
 .volume-control {
 	display: flex;
-	align-items: center;
-	max-width: 100px;
+	max-width: 90px;
 }
 
 .MuiSlider-root {
