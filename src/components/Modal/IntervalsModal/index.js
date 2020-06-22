@@ -202,7 +202,7 @@ const IntervalsModal = ({
 								type="submit"
 								className="modal-button"
 								variant="contained"
-								color="secondary"
+								color="primary"
 							>
 								Confirm
 							</Button>
