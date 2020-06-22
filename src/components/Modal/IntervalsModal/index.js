@@ -100,9 +100,7 @@ const IntervalsModal = ({
 		for (let i = 0; i < sectionsData.length; i++) {
 			const { name, value } = sectionsData[i];
 
-			const currentSectionValue = Number(value);
-
-			const errorMessage = validateInput(currentSectionValue);
+			const errorMessage = validateInput(value);
 
 			if (errorMessage !== "") {
 				setSectionsData(prevState => {
@@ -119,7 +117,7 @@ const IntervalsModal = ({
 				error = true;
 			}
 
-			if (value !== "") customTimingInSeconds[name] = currentSectionValue * 60;
+			if (value !== "") customTimingInSeconds[name] = Number(value) * 60;
 		}
 
 		if (!error) {
@@ -138,7 +136,21 @@ const IntervalsModal = ({
 	};
 
 	const validateInput = input => {
-		return input >= 1440 ? "*Please, input less than 1440 minutes." : "";
+		let errorMessage = "";
+
+		if (input === "") {
+			return errorMessage;
+		}
+
+		if (input >= 1440) {
+			errorMessage = "*Each section must have less than 1440 minutes.";
+		}
+
+		if (input <= 0) {
+			errorMessage = "*Each section must have at least 1 minute.";
+		}
+
+		return errorMessage;
 	};
 
 	return (
@@ -182,7 +194,7 @@ const IntervalsModal = ({
 								}
 							/>
 						</div>
-						<h1>Sections interval form</h1>
+						<h2>Sections interval form</h2>
 						<p className="modal-description">
 							You can customize the number of minutes you would like to spend on
 							each task

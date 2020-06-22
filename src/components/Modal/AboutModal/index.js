@@ -59,14 +59,14 @@ const AboutModal = ({ modalsController, setModalsController }) => {
 							}
 						/>
 					</div>
-					<h1>About the pomodoro technique</h1>
+					<h2>About the pomodoro technique</h2>
 					<div className="modal-text">
 						<p>
 							The pomodoro technique is a time management method that aims to
 							make you more productive. The technique uses a timer to set short
 							intervals between your work sections, generally 25 minutes, and 3
 							to 5 minutes of break. Each working interval is known as a
-							pomodoro, from the Italian word for 'tomato'. After four pomodoros
+							pomodoro, from the Italian word for "tomato." After four pomodoros
 							a long break should be taken (15 to 30 minutes) and then, start
 							over again. You shall end when the time you set out to spend on
 							the task is over.
@@ -76,10 +76,10 @@ const AboutModal = ({ modalsController, setModalsController }) => {
 							you more productive.
 						</p>
 						<p className="extra-note">
-							<strong>Important! </strong> This app has default values for the
-							work sections, small breaks, big breaks. But you can customize
-							them according to your needs. On the next page you can set the
-							minutes for each section as you like.
+							<strong>Important! </strong> This app has default values for work
+							sections, small breaks, big breaks (25, 5, and 30 minutes
+							respectively). On the next page, you can customize each section
+							according to your needs.
 						</p>
 					</div>
 				</div>

@@ -29,11 +29,11 @@
 
 @media only screen and (max-width: 900px) {
 	.interval-modal .modal-content {
-		width: 55%;
+		width: 65%;
 	}
 }
 
-.interval-modal h1 {
+.interval-modal h2 {
 	color: #fff;
 	font-family: Roboto, Ubunto, sans-serif;
 	margin: 16px 0;

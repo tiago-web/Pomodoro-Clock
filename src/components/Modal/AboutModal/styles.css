@@ -27,13 +27,22 @@
 	margin: auto;
 }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 800px) {
 	.about-modal .modal-content {
 		width: 70%;
 	}
 }
 
-.about-modal h1 {
+@media only screen and (max-height: 570px) {
+	.about-modal h2 {
+		font-size: 1rem;
+	}
+	.about-modal p {
+		font-size: 0.7rem;
+	}
+}
+
+.about-modal h2 {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

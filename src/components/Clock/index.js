@@ -81,7 +81,7 @@ const Clock = ({
 		setIsPlayingAudio(false);
 	}, [intervals]);
 
-	const handleResetClick = () => {
+	const handleResetButton = () => {
 		setSeconds(
 			breakTime
 				? intervalStatus.includes("small")
@@ -90,6 +90,14 @@ const Clock = ({
 				: intervals.workTime
 		);
 		setCountdownIsRunning(false);
+		setIsPlayingAudio(false);
+	};
+
+	const handleStartButton = () => {
+		const audio = document.getElementById("audio");
+		audio.load();
+
+		setCountdownIsRunning(true);
 		setIsPlayingAudio(false);
 	};
 
@@ -102,32 +110,15 @@ const Clock = ({
 				<Audio />
 
 				{!countdownIsRunning ? (
-					<button
-						onClick={() => {
-							setCountdownIsRunning(true);
-							setIsPlayingAudio(false);
-						}}
-					>
-						Start
-					</button>
+					<button onClick={handleStartButton}>Start</button>
 				) : (
 					<button onClick={() => setCountdownIsRunning(false)}>Stop</button>
 				)}
 
-				<button onClick={handleResetClick}>Reset</button>
+				<button onClick={handleResetButton}>Reset</button>
 			</div>
 		</div>
 	);
 };
-
-// export const useClock = (bool) => {
-// 	const [resetClock, setResetClock] = useState(false);
-
-// 	useEffect(() => {
-// 		setResetClock(bool);
-// 	}, [])
-
-// 	return resetClock;
-// };
 
 export default Clock;
