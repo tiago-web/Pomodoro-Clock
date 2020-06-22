@@ -119,7 +119,7 @@ const IntervalsModal = ({
 		}
 
 		if (!error) {
-			setConfirmSubmition(true);
+			setConfirmSubmition(prevState => !prevState);
 
 			setIntervals(defaultTimes => ({
 				...defaultTimes,
