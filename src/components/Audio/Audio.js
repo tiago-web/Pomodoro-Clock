@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 export default () => {
 	return (
 		<audio id="audio" loop>
-			<source src="./sounds/alarm-clock-effect.mp3"></source>
+			<source src="./sounds/alarm-clock.mp3"></source>
 		</audio>
 	);
 };
@@ -23,10 +23,10 @@ export const useAudio = () => {
 
 		audio.volume = volume;
 
-		if (isPlayingAudio && volume === 0) {
+		if (volume === 0) {
 			audio.pause();
 		}
-	}, [volume, isPlayingAudio]);
+	}, [volume]);
 
 	return { setIsPlayingAudio, setVolume };
 };
