@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+
+import { IntervalProvider } from "./context/IntervalContext";
+
 import Clock from "./components/Clock/index";
 import Header from "./components/Header/index";
 import Footer from "./components/Footer/index";
@@ -42,27 +45,29 @@ const App = () => {
 
 	return (
 		<div className="App">
-			<Header intervalStatus={intervalStatus} />
-			<main>
-				<Clock
-					setPomodoroCount={setPomodoroCount}
-					setBreakTime={setBreakTime}
-					breakTime={breakTime}
-					intervalStatus={intervalStatus}
-					intervals={intervals}
+			<IntervalProvider>
+				<Header intervalStatus={intervalStatus} />
+				<main>
+					<Clock
+						setPomodoroCount={setPomodoroCount}
+						setBreakTime={setBreakTime}
+						breakTime={breakTime}
+						intervalStatus={intervalStatus}
+						intervals={intervals}
+					/>
+					<Settings setModalsController={setModalsController} />
+				</main>
+				<Footer />
+				<AboutModal
+					modalsController={modalsController}
+					setModalsController={setModalsController}
 				/>
-				<Settings setModalsController={setModalsController} />
-			</main>
-			<Footer />
-			<AboutModal
-				modalsController={modalsController}
-				setModalsController={setModalsController}
-			/>
-			<IntervalsModal
-				modalsController={modalsController}
-				setModalsController={setModalsController}
-				setIntervals={setIntervals}
-			/>
+				<IntervalsModal
+					modalsController={modalsController}
+					setModalsController={setModalsController}
+					setIntervals={setIntervals}
+				/>
+			</IntervalProvider>
 		</div>
 	);
 };

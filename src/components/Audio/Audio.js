@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+
+import { IntervalContext } from "../../context/IntervalContext";
 
 export default () => {
 	return (
@@ -10,23 +12,20 @@ export default () => {
 
 export const useAudio = () => {
 	const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-	const [volume, setVolume] = useState(0.5);
+
+	const [state] = useContext(IntervalContext);
 
 	useEffect(() => {
 		const audio = document.getElementById("audio");
 
-		isPlayingAudio ? audio.play() : audio.pause();
-	}, [isPlayingAudio]);
+		isPlayingAudio && state.volume !== 0 ? audio.play() : audio.pause();
+	}, [isPlayingAudio, state.volume]);
 
 	useEffect(() => {
 		const audio = document.getElementById("audio");
 
-		audio.volume = volume;
+		audio.volume = state.volume;
+	}, [state.volume]);
 
-		if (volume === 0) {
-			audio.pause();
-		}
-	}, [volume]);
-
-	return { setIsPlayingAudio, setVolume };
+	return { setIsPlayingAudio };
 };
