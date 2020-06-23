@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useAudio } from "../../Audio/Audio";
+import React, { useState, useContext } from "react";
+// import { useAudio } from "../../Audio/Audio";
+import { IntervalContext } from "../../../context/IntervalContext";
 
 import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 import VolumeDownIcon from "@material-ui/icons/VolumeDown";
@@ -12,14 +13,13 @@ import "./styles.css";
 
 export default () => {
 	const [mouseOver, setMouseOver] = useState(false);
-	const [value, setValue] = useState(50);
-
-	const { setVolume } = useAudio();
+	const [state, setState] = useContext(IntervalContext);
+	const [value, setValue] = useState(state.volume * 100);
 
 	const handleIconClick = () => {
 		const volume = value === 0 ? 50 : 0;
 		setValue(volume);
-		setVolume(volume / 100);
+		setState(prevState => ({ ...prevState, volume: volume / 100 }));
 	};
 
 	const handleIconDisplay = () => {
@@ -49,7 +49,7 @@ export default () => {
 
 	const handleSliderChange = (event, newValue) => {
 		setValue(newValue);
-		setVolume(newValue / 100);
+		setState(prevState => ({ ...prevState, volume: newValue / 100 }));
 	};
 
 	return (
