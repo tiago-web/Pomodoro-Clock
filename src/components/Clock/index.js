@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 
-import Audio, { useAudio } from "../Audio/Audio";
+import { IntervalContext } from "../../context/IntervalContext";
+import Audio from "../Audio/Audio";
 
 import "./styles.css";
 
@@ -11,7 +12,7 @@ const Clock = ({
 	intervals,
 	intervalStatus,
 }) => {
-	const { setIsPlayingAudio } = useAudio();
+	const [, setState] = useContext(IntervalContext);
 
 	const [countdownIsRunning, setCountdownIsRunning] = useState(false);
 	const [seconds, setSeconds] = useState(intervals.workTime);
@@ -23,7 +24,7 @@ const Clock = ({
 		if (!countdownIsRunning) return;
 
 		if (seconds === 0) {
-			setIsPlayingAudio(true);
+			setState(prevState => ({ ...prevState, isPlayingAudio: true }));
 			setBreakTime(!breakTime);
 			setCountdownIsRunning(false);
 			return;
@@ -38,7 +39,7 @@ const Clock = ({
 		countdownIsRunning,
 		seconds,
 		setPomodoroCount,
-		setIsPlayingAudio,
+		setState,
 		setBreakTime,
 		breakTime,
 	]);
@@ -78,7 +79,7 @@ const Clock = ({
 				: intervals.workTime
 		);
 		setCountdownIsRunning(false);
-		setIsPlayingAudio(false);
+		setState(prevState => ({ ...prevState, isPlayingAudio: false }));
 	}, [intervals]);
 
 	const handleResetButton = () => {
@@ -90,7 +91,7 @@ const Clock = ({
 				: intervals.workTime
 		);
 		setCountdownIsRunning(false);
-		setIsPlayingAudio(false);
+		setState(prevState => ({ ...prevState, isPlayingAudio: false }));
 	};
 
 	const handleStartButton = () => {
@@ -98,7 +99,7 @@ const Clock = ({
 		audio.load();
 
 		setCountdownIsRunning(true);
-		setIsPlayingAudio(false);
+		setState(prevState => ({ ...prevState, isPlayingAudio: false }));
 	};
 
 	return (

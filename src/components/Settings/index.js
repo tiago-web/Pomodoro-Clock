@@ -8,7 +8,7 @@ export default ({ setModalsController }) => {
 	return (
 		<div id="settings">
 			<MoreHorizIcon
-				className="moreIcon"
+				className="more-icon"
 				onClick={() =>
 					setModalsController(prevState => ({
 						...prevState,
