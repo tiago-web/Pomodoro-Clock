@@ -29,7 +29,7 @@
 
 <p align="center"><img src=".github/pomodoro1.gif?raw=true"/></p>
 <p align="center"><img src=".github/pomodoro2.gif?raw=true"/></p>
-
+<p align="center"><img src=".github/pomodoro3.gif?raw=true"/></p>
 
 ---
 
