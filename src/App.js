@@ -44,8 +44,8 @@ const App = () => {
 	}, [breakTime, pomodoroCount]);
 
 	return (
-		<div className="App">
-			<IntervalProvider>
+		<IntervalProvider>
+			<div className="App">
 				<Header intervalStatus={intervalStatus} />
 				<main>
 					<Clock
@@ -67,8 +67,8 @@ const App = () => {
 					setModalsController={setModalsController}
 					setIntervals={setIntervals}
 				/>
-			</IntervalProvider>
-		</div>
+			</div>
+		</IntervalProvider>
 	);
 };
 
